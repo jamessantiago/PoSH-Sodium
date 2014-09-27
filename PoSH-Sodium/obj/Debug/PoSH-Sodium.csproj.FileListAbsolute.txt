@@ -1,0 +1,7 @@
+D:\Code\PoSH-Sodium\PoSH-Sodium\bin\Debug\PoSH-Sodium.dll
+D:\Code\PoSH-Sodium\PoSH-Sodium\bin\Debug\PoSH-Sodium.pdb
+D:\Code\PoSH-Sodium\PoSH-Sodium\bin\Debug\Sodium.dll
+D:\Code\PoSH-Sodium\PoSH-Sodium\obj\Debug\PoSH-Sodium.csprojResolveAssemblyReference.cache
+D:\Code\PoSH-Sodium\PoSH-Sodium\obj\Debug\PoSH-Sodium.dll
+D:\Code\PoSH-Sodium\PoSH-Sodium\obj\Debug\PoSH-Sodium.pdb
+D:\Code\PoSH-Sodium\PoSH-Sodium\bin\Debug\LZ4.dll
