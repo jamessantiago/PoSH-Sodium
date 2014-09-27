@@ -37,8 +37,9 @@
       <HintPath>..\packages\lz4net.1.0.5.93\lib\net40-client\LZ4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Sodium">
-      <HintPath>..\packages\libsodium-net.0.5.0\lib\Net40\Sodium.dll</HintPath>
+    <Reference Include="Sodium, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\libsodium-net.0.6.0-beta2\lib\Net40\Sodium.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,8 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asymetric.Convert.cs" />
+    <Compile Include="Asymetric.Decrypt.cs" />
+    <Compile Include="Asymetric.Encrypt.cs" />
+    <Compile Include="Asymetric.GenerateKeyPair.cs" />
+    <Compile Include="Asymetric.Sign.cs" />
+    <Compile Include="Asymetric.Verify.cs" />
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="KeyAuth.cs" />
+    <Compile Include="Asymetric.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
