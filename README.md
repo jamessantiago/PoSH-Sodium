@@ -26,6 +26,8 @@ PoSH-Sodium is a powershell module, so to install you'll need to run import-modu
 Testing
 =======
 
+[Latest Test Results](http://htmlpreview.github.io/?https://github.com/jamessantiago/PoSH-Sodium/blob/master/PesterTesting/LastTestResults.html)
+
 After you build the code you can execute powershell tests by updating and running the Pester.ps1 script or navigating to the PesterTesting directory and running the pester.bat script located in Pester\bin.
 
 Available Cmdlets
@@ -43,5 +45,8 @@ So far these are available:
     New-Key [<CommonParameters>]
     New-KeyPair [[-Seed] <byte[]>] [<CommonParameters>]
     Sign-Message [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
+    Sign-SymmetricMessage [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [[-HashType] <string>] [<CommonParameters>]
     Verify-Message [-Message] <string> [-Key] <byte[]> [-SignatureOnly] [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     Verify-RawMessage [-Message] <byte[]> [-Key] <byte[]> [-SignatureOnly] [-Raw] [[-Encoding] <string>] [<CommonParameters>]
+    Verify-RawSymmetricMessage [-Message] <string> [-Key] <byte[]> [-Signature] <byte[]> [[-Encoding] <string>] [[-HashType] <string>] [<CommonParameters>]
+    Verify-SymmetricMessage [-Message] <string> [-Key] <byte[]> [-Signature] <string> [[-Encoding] <string>] [[-HashType] <string>] [<CommonParameters>]
