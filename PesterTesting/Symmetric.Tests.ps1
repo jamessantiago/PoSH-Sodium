@@ -129,3 +129,35 @@ Describe "Verify-SymmetricMessage" {
 	  }
    }
 }
+
+Describe "Verify-RawSymmetricMessage" {
+   Context "no parameter is provided" {
+      It "fails" {
+         { Verify-RawSymmetricMessage } | Should Throw
+      }
+   }
+   Context "message and key is provided" {
+      It "verifies signed message" {
+		 $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Raw
+		 Verify-RawSymmetricMessage -message $message.Message -Key $key -Signature $message.Signature | Should be $true
+      }
+   }
+   Context "advanced options are provided" {
+	  It "verifies signed message with specified encoding" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Encoding "UTF8" -Raw
+		 Verify-RawSymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -Encoding "UTF8" | Should be $true
+      }
+	  It "verifies signed message with HmacSha512" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha512 -Raw
+		 Verify-RawSymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -HashType HmacSha512 | Should be $true
+	  }
+	  It "verifies signed message with HmacSha256" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha256 -Raw
+		 Verify-RawSymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -HashType HmacSha256 | Should be $true
+	  }
+   }
+}

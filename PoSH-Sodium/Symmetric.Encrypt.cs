@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Sodium;
+﻿using Sodium;
 using System.Management.Automation;
 
 namespace PoSH_Sodium
@@ -30,7 +26,7 @@ namespace PoSH_Sodium
                 WriteObject(result);
             }
         }
-        
+
         private byte[] rawMessage;
 
         [Parameter(
