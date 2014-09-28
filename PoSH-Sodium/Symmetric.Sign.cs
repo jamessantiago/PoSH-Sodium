@@ -7,8 +7,8 @@ using Sodium;
 
 namespace PoSH_Sodium
 {
-    [Cmdlet("Sign", "Message")]
-    public class Sign : PSCmdlet
+    [Cmdlet("Sign", "SymmetricMessage")]
+    public class SymmetricSign : PSCmdlet
     {
         protected override void BeginProcessing()
         {
@@ -17,7 +17,20 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            var signedMessage = PublicKeyAuth.Sign(rawMessage, Key);
+            byte[] signedMessage;
+            switch ((HashType ?? "HmacSha512-256").ToUpper())
+            {
+                case "HMACSHA512":
+                    signedMessage = SecretKeyAuth.SignHmacSha512(rawMessage, Key);
+                    break;
+                case "HMACSHA256":
+                    signedMessage = SecretKeyAuth.SignHmacSha256(rawMessage, Key);
+                    break;
+                case "HMACSHA512-256":
+                default:
+                    signedMessage = SecretKeyAuth.Sign(rawMessage, Key);
+                    break;
+            }
             if (Raw.IsTrue())
             {
                 WriteObject(signedMessage);
@@ -42,7 +55,7 @@ namespace PoSH_Sodium
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 1,
-            HelpMessage = "Private key to sign the message with")]
+            HelpMessage = "Key to sign the message with")]
         public byte[] Key;
 
         [Parameter(
@@ -60,5 +73,12 @@ namespace PoSH_Sodium
         [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
         public string Encoding;
 
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            Position = 4,
+            HelpMessage = "Hash algorithm used to generate signature")]
+        [ValidateSet("HmacSha512-256", "HmacSha512", "HmacSha256")]
+        public string HashType;
     }
 }

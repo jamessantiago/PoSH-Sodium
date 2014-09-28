@@ -45,3 +45,48 @@ Describe "Encrypt-SymmetricMessage" {
       }
    }
 }
+
+
+###########################################
+#
+#        Sign Tests
+#
+###########################################
+
+Describe "Sign-SymmetricMessage" {
+   Context "no parameter is provided" {
+      It "fails" {
+         { Sign-SymmetricMessage } | Should Throw
+      }
+   }
+   Context "message and key is provided" {
+      It "creates signed message" {
+		 $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key
+		 $message | Should Not BeNullOrEmpty
+      }
+   }
+   Context "advanced options are provided" {
+      It "creates raw message" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Raw
+		 $message | Should Not BeNullOrEmpty
+		 $message.GetType().Name | Should Be "Byte[]"
+      }
+	  It "creates signed message with specified encoding" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Encoding "UTF8"
+		 $message | Should Not BeNullOrEmpty
+      }
+	  It "Creates signed message with HmacSha512" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha512
+		 $message | Should Not BeNullOrEmpty
+	  }
+	  It "Creates signed message with HmacSha256" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha256
+		 $message | Should Not BeNullOrEmpty
+	  }
+   }
+}
