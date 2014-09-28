@@ -9,7 +9,7 @@ namespace PoSH_Sodium
 {
     [Cmdlet(VerbsCommon.New, "Key")]
     public class GenerateKey : PSCmdlet
-    {
+    {        
         protected override void ProcessRecord()
         {
             var key = SecretBox.GenerateKey();

@@ -18,6 +18,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 PoSH-Sodium/bin
+PesterTesting/Test.xml
 
 # Roslyn cache directories
 *.ide/

@@ -97,9 +97,7 @@ namespace PoSH_Sodium
                 WriteObject(plainMessage);
             }
         }
-
-        private byte[] rawMessage;
-
+        
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,

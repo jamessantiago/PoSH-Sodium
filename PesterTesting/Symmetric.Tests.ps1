@@ -1,3 +1,8 @@
+if (-not (get-Module PoSH-Sodium))
+{
+	import-Module "$pwd\..\PoSH-Sodium\bin\Debug\PoSH-Sodium.dll"
+}
+
 ###########################################
 #
 #        GenerateKey Tests

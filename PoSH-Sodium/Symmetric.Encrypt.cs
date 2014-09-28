@@ -30,7 +30,7 @@ namespace PoSH_Sodium
                 WriteObject(result);
             }
         }
-
+        
         private byte[] rawMessage;
 
         [Parameter(
