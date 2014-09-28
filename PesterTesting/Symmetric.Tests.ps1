@@ -71,7 +71,8 @@ Describe "Sign-SymmetricMessage" {
 	     $key = New-Key
 	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Raw
 		 $message | Should Not BeNullOrEmpty
-		 $message.GetType().Name | Should Be "Byte[]"
+		 $message.Signature.GetType().Name | Should Be "Byte[]"
+	     $message.Signature.Length | Should be 32
       }
 	  It "creates signed message with specified encoding" {
 	     $key = New-Key
@@ -87,6 +88,44 @@ Describe "Sign-SymmetricMessage" {
 	     $key = New-Key
 	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha256
 		 $message | Should Not BeNullOrEmpty
+	  }
+   }
+}
+
+###########################################
+#
+#        Verify Tests
+#
+###########################################
+
+Describe "Verify-SymmetricMessage" {
+   Context "no parameter is provided" {
+      It "fails" {
+         { Verify-SymmetricMessage } | Should Throw
+      }
+   }
+   Context "message and key is provided" {
+      It "verifies signed message" {
+		 $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key
+		 Verify-SymmetricMessage -message $message.Message -Key $key -Signature $message.Signature | Should be $true
+      }
+   }
+   Context "advanced options are provided" {
+	  It "verifies signed message with specified encoding" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Encoding "UTF8"
+		 Verify-SymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -Encoding "UTF8" | Should be $true
+      }
+	  It "verifies signed message with HmacSha512" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha512
+		 Verify-SymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -HashType HmacSha512 | Should be $true
+	  }
+	  It "verifies signed message with HmacSha256" {
+	     $key = New-Key
+	     $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha256
+		 Verify-SymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -HashType HmacSha256 | Should be $true
 	  }
    }
 }

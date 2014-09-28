@@ -7,8 +7,8 @@ using Sodium;
 
 namespace PoSH_Sodium
 {
-    [Cmdlet("Sign", "SymmetricMessage")]
-    public class SymmetricSign : PSCmdlet
+    [Cmdlet("Verify", "SymmetricMessage")]
+    public class SymmetricVerify : PSCmdlet
     {
         protected override void BeginProcessing()
         {
@@ -17,30 +17,21 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            byte[] signature;
+            bool isVerified;
             switch ((HashType ?? "HmacSha512-256").ToUpper())
             {
                 case "HMACSHA512":
-                    signature = SecretKeyAuth.SignHmacSha512(rawMessage, Key);
+                    isVerified = SecretKeyAuth.VerifyHmacSha512(rawMessage, Signature.Decompress(), Key);
                     break;
                 case "HMACSHA256":
-                    signature = SecretKeyAuth.SignHmacSha256(rawMessage, Key);
+                    isVerified = SecretKeyAuth.VerifyHmacSha256(rawMessage, Signature.Decompress(), Key);
                     break;
                 case "HMACSHA512-256":
                 default:
-                    signature = SecretKeyAuth.Sign(rawMessage, Key);
+                    isVerified = SecretKeyAuth.Verify(rawMessage, Signature.Decompress(), Key);
                     break;
             }
-            if (Raw.IsTrue())
-            {
-                var signedMessave = new RawSignedSymmetricMessage() { Message = Message, Signature = signature };
-                WriteObject(signedMessave);
-            }
-            else
-            {
-                var signedMessave = new SignedSymmetricMessage() { Message = Message, Signature = signature.Compress() };
-                WriteObject(signedMessave);
-            }
+            WriteObject(isVerified);
         }
 
         private byte[] rawMessage;
@@ -50,23 +41,23 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
             Position = 0,
-            HelpMessage = "Message to be signed")]
+            HelpMessage = "Message to be verified")]
         public string Message;
 
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 1,
-            HelpMessage = "Key to sign the message with")]
+            HelpMessage = "Key to verify the message with")]
         public byte[] Key;
 
         [Parameter(
-            Mandatory = false,
+            Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 2,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
-        public SwitchParameter Raw;
-
+            HelpMessage = "Signature to verify the message with")]
+        public string Signature;
+        
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
@@ -79,7 +70,7 @@ namespace PoSH_Sodium
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 4,
-            HelpMessage = "Hash algorithm used to generate signature")]
+            HelpMessage = "Hash algorithm used to verify signature")]
         [ValidateSet("HmacSha512-256", "HmacSha512", "HmacSha256")]
         public string HashType;
     }

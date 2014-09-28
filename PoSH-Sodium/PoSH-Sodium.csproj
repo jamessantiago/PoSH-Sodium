@@ -85,6 +85,7 @@
     <Compile Include="Symmetric.Sign.cs">
       <DependentUpon>Symmetric.cs</DependentUpon>
     </Compile>
+    <Compile Include="Symmetric.Verify.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
