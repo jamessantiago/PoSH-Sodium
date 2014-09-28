@@ -45,7 +45,7 @@ namespace PoSH_Sodium
                 }
                 else
                 {
-                    var keypair = PublicKeyAuth.GenerateKeyPair();
+                    var keypair = PublicKeyBox.GenerateKeyPair();
                     WriteObject(keypair);
                 }
             }

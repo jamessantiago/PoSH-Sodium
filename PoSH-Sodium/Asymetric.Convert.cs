@@ -25,7 +25,7 @@ namespace PoSH_Sodium
     }
 
     [Cmdlet(VerbsData.Convert, "PrivateKey")]
-    public class ConvertPublic : PSCmdlet
+    public class ConvertPrivate : PSCmdlet
     {
         protected override void ProcessRecord()
         {

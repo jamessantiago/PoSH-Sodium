@@ -25,8 +25,6 @@ namespace PoSH_Sodium
             }
         }
 
-        private byte[] rawMessage;
-
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,

@@ -77,4 +77,69 @@ namespace PoSH_Sodium
         [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
         public string Encoding;
     }
+
+
+    [Cmdlet("Verify", "RawMessage")]
+    public class VerifyRaw : PSCmdlet
+    {
+        protected override void ProcessRecord()
+        {
+            byte[] message;
+            if (SignatureOnly.IsTrue())
+            {
+                throw new NotImplementedException("Where is verify detached?");
+            }
+            else
+            {
+                message = PublicKeyAuth.Verify(Message, Key);
+
+                if (Raw.IsPresent && Raw.ToBool())
+                {
+                    WriteObject(message);
+                }
+                else
+                {
+                    var plainMessage = message.ToString(Encoding);
+                    WriteObject(plainMessage);
+                }
+            }
+        }
+
+        [Parameter(
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
+            Position = 0,
+            HelpMessage = "Message to be verified")]
+        public byte[] Message;
+
+        [Parameter(
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            Position = 1,
+            HelpMessage = "Public key to verify the message with")]
+        public byte[] Key;
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            Position = 2,
+            HelpMessage = "Verifies a signature without the message")]
+        public SwitchParameter SignatureOnly;
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            Position = 3,
+            HelpMessage = "Output is returned as a byte array, otherwise a plain text string is returned")]
+        public SwitchParameter Raw;
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            Position = 4,
+            HelpMessage = "Encoding to use when converting the message to a plain text string.  Default is .NET Unicode (UTF16)")]
+        [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
+        public string Encoding;
+    }
 }
