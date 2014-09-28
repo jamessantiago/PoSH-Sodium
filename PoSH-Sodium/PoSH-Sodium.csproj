@@ -40,6 +40,7 @@
     <Reference Include="Sodium, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\libsodium-net.0.6.0-beta2\lib\Net40\Sodium.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,15 +54,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asymetric.Convert.cs" />
-    <Compile Include="Asymetric.Decrypt.cs" />
-    <Compile Include="Asymetric.Encrypt.cs" />
-    <Compile Include="Asymetric.GenerateKeyPair.cs" />
-    <Compile Include="Asymetric.Sign.cs" />
-    <Compile Include="Asymetric.Verify.cs" />
-    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Asymetric.Convert.cs">
+      <DependentUpon>Asymetric.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Asymetric.Decrypt.cs">
+      <DependentUpon>Asymetric.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Asymetric.Encrypt.cs">
+      <DependentUpon>Asymetric.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Asymetric.GenerateKeyPair.cs">
+      <DependentUpon>Asymetric.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Asymetric.Sign.cs">
+      <DependentUpon>Asymetric.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Asymetric.Verify.cs">
+      <DependentUpon>Asymetric.cs</DependentUpon>
+    </Compile>
     <Compile Include="Asymetric.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Symmetric.cs" />
+    <Compile Include="Symmetric.Encrypt.cs" />
+    <Compile Include="Symmetric.GenerateKey.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

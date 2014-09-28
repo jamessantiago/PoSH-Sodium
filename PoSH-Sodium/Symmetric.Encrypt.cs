@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Management.Automation;
 using Sodium;
+using System.Management.Automation;
 
 namespace PoSH_Sodium
-{    
-    [Cmdlet("Encrypt", "Message")]
-    public class Encrypt : PSCmdlet
+{
+    [Cmdlet("Encrypt", "SymmetricMessage")]
+    public class SymmetricEncrypt : PSCmdlet
     {
         protected override void BeginProcessing()
         {
@@ -18,7 +18,7 @@ namespace PoSH_Sodium
         protected override void ProcessRecord()
         {
             var nonce = SecretBox.GenerateNonce();
-            var encryptedMessage = PublicKeyBox.Create(rawMessage, nonce, PrivateKey, PublicKey);
+            var encryptedMessage = SecretBox.Create(rawMessage, nonce, Key);
             if (Raw.IsTrue())
             {
                 var result = new RawEncryptedMessage() { Message = encryptedMessage, Nonce = nonce };
@@ -40,35 +40,27 @@ namespace PoSH_Sodium
             Position = 0,
             HelpMessage = "Message to be encrypted")]
         public string Message;
-         
+
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 1,
-            HelpMessage = "Sender's private key to sign the message with")]
-        public byte[] PrivateKey;
-
-        [Parameter(
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            Position = 2,
-            HelpMessage = "Recipient's public key to encrypt the message with")]
-        public byte[] PublicKey;
+            HelpMessage = "Symmetric key to encrypt the message with")]
+        public byte[] Key;
 
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            Position = 3,
+            Position = 2,
             HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
         public SwitchParameter Raw;
 
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            Position = 4,
+            Position = 3,
             HelpMessage = "Encoding to use when converting the message to a byte array.  Default is .NET Unicode (UTF16)")]
         [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
         public string Encoding;
-
     }
 }

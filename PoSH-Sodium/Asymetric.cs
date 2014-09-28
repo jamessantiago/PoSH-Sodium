@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Management.Automation;
-using Sodium;
-using LZ4;
-
-namespace PoSH_Sodium
+﻿namespace PoSH_Sodium
 {
+    public class EncryptedMessage
+    {
+        public string Message;
+        public byte[] Nonce;
+    }
 
+    public class RawEncryptedMessage
+    {
+        public byte[] Message;
+        public byte[] Nonce;
+    }
 }

@@ -27,7 +27,7 @@ Describe "New-KeyPair" {
    }
 }
 
-Describe "New-CurveKey" {
+Describe "New-CurveKeyPair" {
 	Context "no parameter is provided" {
 		It "creates a new keypair" {
 			$key = New-CurveKeyPair
@@ -143,6 +143,115 @@ Describe "Verify-RawMessage" {
 	     $key = New-KeyPair
 	     $message = sign-Message -Message "This is a test" -Key $key.PrivateKey -Raw -Encoding "UTF8"
 		 verify-RawMessage -Message $message -Key $key.PublicKey -Encoding "UTF8" | Should Be "This is a test"
+      }
+   }
+}
+
+###########################################
+#
+#        Key Convert Tests
+#
+###########################################
+
+Describe "Convert-PublicKey" {
+   Context "no parameter is provided" {
+      It "fails" {
+         { Convert-PublicKey } | Should Throw
+      }
+   }
+   Context "Ed25519 public key converted to Curve25519 public key" {
+      It "returns converted key" {
+		 $key = New-KeyPair
+	     (Convert-PublicKey -PublicKey $key.PublicKey).Length | Should be 32		 
+      }
+   }
+}
+
+Describe "Convert-PrivateKey" {
+   Context "no parameter is provided" {
+      It "fails" {
+         { Convert-PrivateKey } | Should Throw
+      }
+   }
+   Context "Ed25519 public key converted to Curve25519 public key" {
+      It "returns converted key" {
+		 $key = New-KeyPair
+	     (Convert-PrivateKey -PrivateKey $key.PrivateKey).Length | Should be 32		 
+      }
+   }
+}
+
+###########################################
+#
+#        Encrypt Tests
+#
+###########################################
+
+Describe "Encrypt-Message" {
+   Context "no parameter is provided" {
+      It "fails" {
+         { Encrypt-Message } | Should Throw
+      }
+   }
+   Context "message and keys are provided" {
+      It "returns encrypted message" {
+		 $key = New-CurveKeyPair		 
+	     $message = Encrypt-Message -Message "This is a test" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey
+		 $message | Should Not BeNullOrEmpty
+      }
+   }
+   Context "advanced options are provided" {
+      It "returns raw encrypted message" {
+	     $key = New-CurveKeyPair
+	     $message = Encrypt-Message -Message "This is a test" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -Raw 
+		 $message.Message.GetType().Name | Should Be "Byte[]"
+      }
+   }
+   Context "encryption after Ed25519 key conversion" {
+      It "returns encrypted message" {
+		 $key = New-KeyPair
+	     $privateKey = Convert-PrivateKey $key.PrivateKey
+	     $publicKey = Convert-PublicKey $key.PublicKey		 
+	     $message = Encrypt-Message -Message "This is a test" -PublicKey $publicKey -PrivateKey $privateKey
+		 $message | Should Not BeNullOrEmpty
+      }
+   }
+}
+
+###########################################
+#
+#        Decrypt Tests
+#
+###########################################
+
+Describe "Decrypt-Message" {
+   Context "no parameter is provided" {
+      It "fails" {
+         { Decrypt-Message } | Should Throw
+      }
+   }
+   Context "message and keys are provided" {
+      It "returns decrypted message" {
+		 $key = New-CurveKeyPair		 
+	     $secretMessage = Encrypt-Message -Message "This is a test" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey
+		 $message = Decrypt-Message -Message $secretMessage.Message -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -Nonce $secretMessage.Nonce
+	     $message | Should be "This is a test"
+      }
+	  It "returns decrypted message per encoding" {
+		 $key = New-CurveKeyPair		 
+	     $secretMessage = Encrypt-Message -Message "This is a test" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -Encoding "UTF8"
+		 $message = Decrypt-Message -Message $secretMessage.Message -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -Nonce $secretMessage.Nonce -Encoding "UTF8"
+	     $message | Should be "This is a test"
+      }
+   }
+   Context "decryption after Ed25519 key conversion" {
+      It "returns encrypted message" {
+		 $key = New-KeyPair
+	     $privateKey = Convert-PrivateKey $key.PrivateKey
+	     $publicKey = Convert-PublicKey $key.PublicKey		 
+	     $secretMessage = Encrypt-Message -Message "This is a test" -PublicKey $publicKey -PrivateKey $privateKey
+		 $message = Decrypt-Message -Message $secretMessage.Message -PublicKey $publicKey -PrivateKey $privateKey -Nonce $secretMessage.Nonce
+	     $message| Should be "This is a test"
       }
    }
 }
