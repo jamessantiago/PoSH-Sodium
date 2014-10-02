@@ -30,6 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Pester.ps1" />
+    <Content Include="RunTests.bat" />
     <Content Include="Symmetric.Tests.ps1" />
   </ItemGroup>
   <ItemGroup>

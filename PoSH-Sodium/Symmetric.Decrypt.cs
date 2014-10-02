@@ -7,8 +7,8 @@ using Sodium;
 
 namespace PoSH_Sodium
 {
-    [Cmdlet("Decrypt", "Message")]
-    public class Decrypt : PSCmdlet
+    [Cmdlet("Decrypt", "SymmetricMessage")]
+    public class SymmetricDecrypt : PSCmdlet
     {
         protected override void BeginProcessing()
         {
@@ -18,8 +18,7 @@ namespace PoSH_Sodium
         protected override void ProcessRecord()
         {
             byte[] message;
-            message = PublicKeyBox.Open(rawMessage, Nonce, PrivateKey, PublicKey);
-
+            message = SecretBox.Open(rawMessage, Nonce, Key);
             if (Raw.IsTrue())
             {
                 WriteObject(message);
@@ -38,7 +37,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
             Position = 0,
-            HelpMessage = "Message to be verified and decrypted")]
+            HelpMessage = "Message to be decrypted")]
         public string Message;
 
         [Parameter(
@@ -52,42 +51,33 @@ namespace PoSH_Sodium
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 2,
-            HelpMessage = "Sender's public key to verify the message with")]
-        public byte[] PublicKey;
-
-        [Parameter(
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            Position = 3,
-            HelpMessage = "Recepient's private key to decrypt the message with")]
-        public byte[] PrivateKey;
+            HelpMessage = "Symmetric key to decrypt the message with")]
+        public byte[] Key;
 
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            Position = 4,
-            HelpMessage = "Output is returned as a byte array, otherwise a plain text string is returned")]
+            Position = 3,
+            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
         public SwitchParameter Raw;
 
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            Position = 5,
-            HelpMessage = "Encoding to use when converting the message to a plain text string.  Default is .NET Unicode (UTF16)")]
+            Position = 4,
+            HelpMessage = "Encoding to use when converting the message to a byte array.  Default is .NET Unicode (UTF16)")]
         [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
         public string Encoding;
     }
 
-    [Cmdlet("Decrypt", "RawMessage")]
-    public class RawDecrypt : PSCmdlet
+    [Cmdlet("Decrypt", "RawSymmetricMessage")]
+    public class RawSymmetricDecrypt : PSCmdlet
     {
-
         protected override void ProcessRecord()
         {
             byte[] message;
-            message = PublicKeyBox.Open(Message, Nonce, PrivateKey, PublicKey);
-
-            if (Raw.IsPresent && Raw.ToBool())
+            message = SecretBox.Open(Message, Nonce, Key);
+            if (Raw.IsTrue())
             {
                 WriteObject(message);
             }
@@ -97,13 +87,13 @@ namespace PoSH_Sodium
                 WriteObject(plainMessage);
             }
         }
-        
+
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
             Position = 0,
-            HelpMessage = "Message to be verified and decrypted")]
+            HelpMessage = "Message to be decrypted")]
         public byte[] Message;
 
         [Parameter(
@@ -117,28 +107,21 @@ namespace PoSH_Sodium
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 2,
-            HelpMessage = "Sender's public key to verify the message with")]
-        public byte[] PublicKey;
-
-        [Parameter(
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            Position = 3,
-            HelpMessage = "Recepient's private key to decrypt the message with")]
-        public byte[] PrivateKey;
+            HelpMessage = "Symmetric key to decrypt the message with")]
+        public byte[] Key;
 
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            Position = 4,
-            HelpMessage = "Output is returned as a byte array, otherwise a plain text string is returned")]
+            Position = 3,
+            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
         public SwitchParameter Raw;
 
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            Position = 5,
-            HelpMessage = "Encoding to use when converting the message to a plain text string.  Default is .NET Unicode (UTF16)")]
+            Position = 4,
+            HelpMessage = "Encoding to use when converting the message to a byte array.  Default is .NET Unicode (UTF16)")]
         [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
         public string Encoding;
     }
