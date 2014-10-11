@@ -29,6 +29,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Hashing.Tests.ps1" />
+    <Content Include="XSalsa20.Tests.ps1" />
+    <Content Include="ChaCha20.Tests.ps1" />
     <Content Include="RunTests.bat" />
     <Content Include="OneTimeAuth.Tests.ps1" />
     <Content Include="Symmetric.Tests.ps1" />

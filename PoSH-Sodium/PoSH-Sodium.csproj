@@ -39,8 +39,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Sodium, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\libsodium-net.0.6.0-beta2\lib\Net40\Sodium.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\libsodium-net.0.6.0\lib\Net40\Sodium.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,7 +72,9 @@
       <DependentUpon>Asymetric.cs</DependentUpon>
     </Compile>
     <Compile Include="Asymetric.cs" />
+    <Compile Include="ChaCha20.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Hashing.cs" />
     <Compile Include="OneTimeAuth.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Symmetric.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Symmetric.Verify.cs">
       <DependentUpon>Symmetric.cs</DependentUpon>
     </Compile>
+    <Compile Include="XSalsa20.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
