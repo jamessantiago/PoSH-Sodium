@@ -1,0 +1,3 @@
+[submodule "PesterFork"]
+	path = PesterFork
+	url = https://github.com/jamessantiago/Pester.git
