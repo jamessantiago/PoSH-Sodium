@@ -1,3 +1,6 @@
 [submodule "PesterFork"]
 	path = PesterFork
 	url = https://github.com/jamessantiago/Pester.git
+[submodule "Nunit-HTML-Report-Generator"]
+	path = Nunit-HTML-Report-Generator
+	url = https://github.com/JatechUK/NUnit-HTML-Report-Generator.git

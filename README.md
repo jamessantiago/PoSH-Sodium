@@ -16,7 +16,11 @@ libsodium-net is experimental, therefore so is PoSH-Sodium.  Not all methods hav
 Installation
 ============
 
-PoSH-Sodium is a powershell module, so to install you'll need to run import-module on PoSH-Sodium.dll.  There are currently no release builds for PoSH-Sodium so to start, clone the source and build.  The source comes with a submodule Pester for powershell testing.  To clone the project with the submodule, perform the following:
+PoSH-Sodium is a powershell module, so to install you'll need to run import-module on PoSH-Sodium.dll.  There are currently no release builds for PoSH-Sodium so to start, clone the source and build.  The source comes with the submodule Pester for powershell testing and Nunit-HTML-Report-Generator for generating the HTML test report.  To clone the project with the submodules, perform the following:
+
+    git clone --recursive https://github.com/jamessantiago/PoSH-Sodium.git PoSH-Sodium
+
+If you are using an earlier version of git than version 1.6.5, run these commands:
 
     git clone https://github.com/jamessantiago/PoSH-Sodium.git PoSH-Sodium
     cd PoSH-Sodium
@@ -28,7 +32,12 @@ Testing
 
 [Latest Test Results](http://htmlpreview.github.io/?https://github.com/jamessantiago/PoSH-Sodium/blob/master/PesterTesting/LastTestResults.html)
 
-After you build the code you can execute powershell tests by updating and running the Pester.ps1 script or navigating to the PesterTesting directory and running the pester.bat script located in Pester\bin.
+The testing goal for PoSH-Sodium is 100% test coverage.  You can run the tests by running the RunTests.bat file under the PesterTesting directory.
+
+Usage
+=====
+
+PoSH-Sodium commands can be used after building the source and importing PoSH-Sodium.dll.
 
 Available Cmdlets
 =================
@@ -37,13 +46,20 @@ So far these are available:
 
     Convert-PrivateKey [-PrivateKey] <byte[]> [<CommonParameters>]
     Convert-PublicKey [-PublicKey] <byte[]> [<CommonParameters>]
+    Decrypt-ChaChaMessage [-Message] <string> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     Decrypt-Message [-Message] <string> [-Nonce] <byte[]> [-PublicKey] <byte[]> [-PrivateKey] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
+    Decrypt-RawChaChaMessage [-Message] <byte[]> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     Decrypt-RawMessage [-Message] <byte[]> [-Nonce] <byte[]> [-PublicKey] <byte[]> [-PrivateKey] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     Decrypt-RawSymmetricMessage [-Message] <byte[]> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
+    Decrypt-RawXSalsaMessage [-Message] <byte[]> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     Decrypt-SymmetricMessage [-Message] <string> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
+    Decrypt-XSalsaMessage [-Message] <string> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
+    Encrypt-ChaChaMessage [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     Encrypt-Message [-Message] <string> [-PrivateKey] <byte[]> [-PublicKey] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     Encrypt-SymmetricMessage [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
+    Encrypt-XSalsaMessage [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     New-CurveKeyPair [[-PrivateKey] <byte[]>] [<CommonParameters>]
+    New-GenericHash [-Message] <string> [[-HashLength] <int>] [[-Key] <byte[]>] [-Raw] [[-Encoding] <string>] [<CommonParameters>]
     New-Key [<CommonParameters>]
     New-KeyPair [[-Seed] <byte[]>] [<CommonParameters>]
     New-OneTimeKey [<CommonParameters>]
