@@ -12,7 +12,15 @@ namespace PoSH_Sodium
     {
         protected override void BeginProcessing()
         {
-            rawMessage = Message.ToByteArray(Encoding);
+            switch (ParameterSetName)
+            {
+                case "String":
+                    rawMessage = Message.ToByteArray(Encoding);
+                case "Byte";
+                    rawMessage = RawMessage;
+                default:
+                    break;
+            }            
         }
 
         protected override void ProcessRecord()
@@ -33,13 +41,33 @@ namespace PoSH_Sodium
 
         private byte[] rawMessage;
 
+        
         [Parameter(
+            ParameterSetName= "String",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
             Position = 0,
             HelpMessage = "Message to be encrypted")]
         public string Message;
+
+        [Parameter(
+            ParameterSetName = "Byte",
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
+            Position = 0,
+            HelpMessage = "Message to be encrypted")]
+        public byte[] RawMessage;
+
+        [Parameter(
+            ParameterSetName = "File",
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
+            Position = 0,
+            HelpMessage = "Message to be encrypted")]
+        public string File;
          
         [Parameter(
             Mandatory = true,
@@ -63,6 +91,7 @@ namespace PoSH_Sodium
         public SwitchParameter Raw;
 
         [Parameter(
+            ParameterSetName= "String",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 4,
