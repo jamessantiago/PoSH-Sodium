@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Management.Automation;
+using System.Security.Cryptography;
+using System.IO;
 using Sodium;
 
 namespace PoSH_Sodium
@@ -16,8 +18,10 @@ namespace PoSH_Sodium
             {
                 case "String":
                     rawMessage = Message.ToByteArray(Encoding);
-                case "Byte";
+                    break;
+                case "Byte":
                     rawMessage = RawMessage;
+                    break;
                 default:
                     break;
             }            
@@ -26,16 +30,29 @@ namespace PoSH_Sodium
         protected override void ProcessRecord()
         {
             var nonce = SecretBox.GenerateNonce();
-            var encryptedMessage = PublicKeyBox.Create(rawMessage, nonce, PrivateKey, PublicKey);
-            if (Raw.IsTrue())
+            if (ParameterSetName == "File")
             {
-                var result = new RawEncryptedMessage() { Message = encryptedMessage, Nonce = nonce };
-                WriteObject(result);
+                using (ICryptoTransform transform = new AsymetricCryptoTransform(nonce, PrivateKey, PublicKey))
+                using (FileStream destination = new FileStream(File, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
+                using (FileStream source = new FileStream(OutputFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    source.CopyTo(cryptoStream);
+                }
             }
             else
-            {
-                var result = new EncryptedMessage() { Message = encryptedMessage.Compress(), Nonce = nonce };
-                WriteObject(result);
+            {                
+                var encryptedMessage = PublicKeyBox.Create(rawMessage, nonce, PrivateKey, PublicKey);
+                if (Raw.IsTrue())
+                {
+                    var result = new RawEncryptedMessage() { Message = encryptedMessage, Nonce = nonce };
+                    WriteObject(result);
+                }
+                else
+                {
+                    var result = new EncryptedMessage() { Message = encryptedMessage.Compress(), Nonce = nonce };
+                    WriteObject(result);
+                }
             }
         }
 
@@ -84,11 +101,27 @@ namespace PoSH_Sodium
         public byte[] PublicKey;
 
         [Parameter(
+            ParameterSetName = "String",
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            Position = 3,
+            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+        [Parameter(
+            ParameterSetName = "Byte",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
             HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
         public SwitchParameter Raw;
+
+        [Parameter(
+           ParameterSetName = "OuputFile",
+           Mandatory = true,
+           ValueFromPipelineByPropertyName = true,
+           ValueFromPipeline = true,
+           Position = 3,
+           HelpMessage = "Ouput file")]
+        public string OutputFile;
 
         [Parameter(
             ParameterSetName= "String",
