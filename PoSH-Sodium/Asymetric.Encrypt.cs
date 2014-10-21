@@ -32,13 +32,20 @@ namespace PoSH_Sodium
             var nonce = SecretBox.GenerateNonce();
             if (ParameterSetName == "File")
             {
-                using (ICryptoTransform transform = new AsymetricCryptoTransform(nonce, PrivateKey, PublicKey))
-                using (FileStream destination = new FileStream(File, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                if (ReplaceFile.IsTrue())
+                    OutputFile = File;                    
+
+                using (ICryptoTransform transform = new AsymetricCryptoTransform(nonce, null, PrivateKey, PublicKey, AsymetricCryptoTransform.Direction.Encrypt))
+                using (FileStream destination = new FileStream(File, FileMode.Append, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
-                using (FileStream source = new FileStream(OutputFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (FileStream source = new FileStream(OutputFile, FileMode.Open, FileAccess.Read, FileShare.Read))                
                 {
                     source.CopyTo(cryptoStream);
-                }
+                    destination.Write(((AsymetricCryptoTransform)transform).Mac, 0, ((AsymetricCryptoTransform)transform).Mac.Length);
+                    destination.Write(nonce, 0, nonce.Length);
+                }                
+
+                WriteObject(nonce);
             }
             else
             {                
@@ -115,13 +122,22 @@ namespace PoSH_Sodium
         public SwitchParameter Raw;
 
         [Parameter(
-           ParameterSetName = "OuputFile",
-           Mandatory = true,
+           ParameterSetName = "File",
+           Mandatory = false,
            ValueFromPipelineByPropertyName = true,
            ValueFromPipeline = true,
            Position = 3,
            HelpMessage = "Ouput file")]
         public string OutputFile;
+
+        [Parameter(
+           ParameterSetName = "File",
+           Mandatory = false,
+           ValueFromPipelineByPropertyName = true,
+           ValueFromPipeline = true,
+           Position = 4,
+           HelpMessage = "Replaces file with encrypted")]
+        public SwitchParameter ReplaceFile;
 
         [Parameter(
             ParameterSetName= "String",

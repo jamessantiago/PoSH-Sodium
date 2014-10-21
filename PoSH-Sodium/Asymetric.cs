@@ -31,9 +31,15 @@ namespace PoSH_Sodium
         private bool canTransformMultipleBlocks;
         private int inputBlockSize;
         private int outputBlockSize;
+        private Direction direction;
 
+        public enum Direction
+        {
+            Encrypt,
+            Decrypt
+        }
 
-        public AsymetricCryptoTransform(byte[] Nonce, byte[] PrivateKey, byte[] PublicKey)
+        public AsymetricCryptoTransform(byte[] Nonce, byte[] Mac, byte[] PrivateKey, byte[] PublicKey, Direction Direction)
         {
             privateKey = PrivateKey;
             publicKey = PublicKey;
@@ -41,6 +47,8 @@ namespace PoSH_Sodium
 
             canReuseTransform = false;
             canTransformMultipleBlocks = true;
+            direction = Direction;
+            mac = Mac;
             //block size?
         }
 
@@ -74,13 +82,23 @@ namespace PoSH_Sodium
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
         {
             //Global alloc safe handles?
-            IncrementNonce(ref nonce, nonce.Length - 1);
+            //IncrementNonce(ref nonce, nonce.Length - 1);
             byte[] message = new byte[inputCount];
             Array.Copy(inputBuffer, inputOffset, message, 0, inputCount);
-            var detatchedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);            
-            mac = detatchedBox.Mac;
-            Array.Copy(detatchedBox.CipherText, 0, outputBuffer, outputOffset, detatchedBox.CipherText.Length);
-            return detatchedBox.CipherText.Length;
+
+            if (direction == Direction.Encrypt)
+            {
+                var detatchedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
+                mac = detatchedBox.Mac;
+                Array.Copy(detatchedBox.CipherText, 0, outputBuffer, outputOffset, detatchedBox.CipherText.Length);
+                return detatchedBox.CipherText.Length;
+            }
+            else
+            {
+                var decryptedData = PublicKeyBox.OpenDetached(message, mac, nonce, privateKey, publicKey);
+                Array.Copy(decryptedData, 0, outputBuffer, outputOffset, decryptedData.Length);
+                return decryptedData.Length;
+            }
         }
 
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
@@ -88,9 +106,19 @@ namespace PoSH_Sodium
             //increment nonce?
             byte[] message = new byte[inputCount];
             Array.Copy(inputBuffer, inputOffset, message, 0, inputCount);
-            var detatchedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
-            mac = detatchedBox.Mac;
-            return detatchedBox.CipherText;
+
+            if (direction == Direction.Encrypt)
+            {
+                var detatchedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
+                mac = detatchedBox.Mac;
+                return detatchedBox.CipherText;
+            }
+            else
+            {
+                var decryptedData = PublicKeyBox.OpenDetached(message, mac, nonce, privateKey, publicKey);
+                return decryptedData;
+            }
+            
         }
 
         private bool IncrementNonce(ref byte[] nonce, int position)
