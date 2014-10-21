@@ -228,6 +228,16 @@ Describe "Encrypt-Message" {
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
+   Context "file encryption" {
+	  It "encrypts file" {
+		 $key = New-CurveKeyPair
+		 "test file" | out-File "testFile.txt"
+		 $message = Encrypt-Message -File "testFile.txt" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -OutFile EncryptFile.txt
+		 $(test-path EncryptFile.txt) | Should be $true
+		 rm testFile.txt
+	     rm EncryptFile.txt
+	  }
+   }
 }
 
 ###########################################

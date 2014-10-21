@@ -33,16 +33,17 @@ namespace PoSH_Sodium
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
-                    OutputFile = File;                    
+                    OutFile = File;                    
 
                 using (ICryptoTransform transform = new AsymetricCryptoTransform(nonce, null, PrivateKey, PublicKey, AsymetricCryptoTransform.Direction.Encrypt))
-                using (FileStream destination = new FileStream(File, FileMode.Append, FileAccess.Write, FileShare.None))
+                using (FileStream destination = new FileStream(OutFile, FileMode.Append, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
-                using (FileStream source = new FileStream(OutputFile, FileMode.Open, FileAccess.Read, FileShare.Read))                
+                using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))                
                 {
                     source.CopyTo(cryptoStream);
                     destination.Write(((AsymetricCryptoTransform)transform).Mac, 0, ((AsymetricCryptoTransform)transform).Mac.Length);
                     destination.Write(nonce, 0, nonce.Length);
+                    destination.Flush();
                 }                
 
                 WriteObject(nonce);
@@ -128,7 +129,7 @@ namespace PoSH_Sodium
            ValueFromPipeline = true,
            Position = 3,
            HelpMessage = "Ouput file")]
-        public string OutputFile;
+        public string OutFile;
 
         [Parameter(
            ParameterSetName = "File",

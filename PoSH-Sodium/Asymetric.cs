@@ -49,6 +49,8 @@ namespace PoSH_Sodium
             canTransformMultipleBlocks = true;
             direction = Direction;
             mac = Mac;
+            inputBlockSize = 16;
+            outputBlockSize = 16;
             //block size?
         }
 
