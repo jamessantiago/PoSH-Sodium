@@ -49,7 +49,7 @@ namespace PoSH_Sodium
             canTransformMultipleBlocks = true;
             direction = Direction;
             mac = Mac;
-            inputBlockSize = 16;
+            inputBlockSize = 40; // 16 mac + 24 nonce so the final block always has added data when decrypting
             outputBlockSize = 16;
             //block size?
         }
@@ -57,25 +57,8 @@ namespace PoSH_Sodium
 
         public byte[] Mac { get { return mac; } }
 
-        // Summary:
-        //     Gets a value indicating whether the current transform can be reused.
-        //
-        // Returns:
-        //     true if the current transform can be reused; otherwise, false.
         public bool CanReuseTransform { get { return canReuseTransform; } }
-        //
-        // Summary:
-        //     Gets a value indicating whether multiple blocks can be transformed.
-        //
-        // Returns:
-        //     true if multiple blocks can be transformed; otherwise, false.
         public bool CanTransformMultipleBlocks { get { return canTransformMultipleBlocks; } }
-        //
-        // Summary:
-        //     Gets the input block size.
-        //
-        // Returns:
-        //     The size of the input data blocks in bytes.
         public int InputBlockSize { get { return inputBlockSize; } }
 
         public int OutputBlockSize { get { return outputBlockSize; } }
@@ -117,8 +100,10 @@ namespace PoSH_Sodium
             }
             else
             {
-                var decryptedData = PublicKeyBox.OpenDetached(message, mac, nonce, privateKey, publicKey);
-                return decryptedData;
+                //ignore this is mac and nonce
+                //var decryptedData = PublicKeyBox.OpenDetached(message, mac, nonce, privateKey, publicKey);
+                //return decryptedData;
+                return new byte[0];
             }
             
         }
