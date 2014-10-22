@@ -278,12 +278,12 @@ Describe "Decrypt-Message" {
    }
    Context "file decryption" {
 	  It "decrypts file" {
-	rm *.testtxt
+	    rm *.testtxt
 		$key = New-CurveKeyPair
 		"test file" | out-File "testFile.testtxt"
 		Encrypt-Message -File "testFile.testtxt" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -OutFile EncryptFile.testtxt
 		$(test-path EncryptFile.testtxt) | Should be $true
-		Decrypt-Message -File "EncryptFile.testtxt" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -OutFile DecyptFile.testtxt
+		Decrypt-Message -File "EncryptFile.testtxt" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -OutFile DecryptFile.testtxt
 		$(cat DecryptFile.testtxt) | Should be "test file"
 		rm *.testtxt
 	  }

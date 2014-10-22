@@ -25,7 +25,6 @@ namespace PoSH_Sodium
         private byte[] nonce;
         private byte[] privateKey;
         private byte[] publicKey;
-        private byte[] mac;
         private bool canReuseTransform;
 
         private bool canTransformMultipleBlocks;
@@ -39,7 +38,7 @@ namespace PoSH_Sodium
             Decrypt
         }
 
-        public AsymetricCryptoTransform(byte[] Nonce, byte[] Mac, byte[] PrivateKey, byte[] PublicKey, Direction Direction)
+        public AsymetricCryptoTransform(byte[] Nonce, byte[] PrivateKey, byte[] PublicKey, Direction Direction)
         {
             privateKey = PrivateKey;
             publicKey = PublicKey;
@@ -48,14 +47,19 @@ namespace PoSH_Sodium
             canReuseTransform = false;
             canTransformMultipleBlocks = true;
             direction = Direction;
-            mac = Mac;
-            inputBlockSize = 16; // 16 mac + 24 nonce so the final block always has added data when decrypting
-            outputBlockSize = 16;
+            if (direction == AsymetricCryptoTransform.Direction.Encrypt)
+            {
+                inputBlockSize = 4096;
+                outputBlockSize = 4112;
+            }
+            else
+            {
+                inputBlockSize = 4112;
+                outputBlockSize = 4096;
+            }
             //block size?
         }
 
-
-        public byte[] Mac { get { return mac; } }
 
         public bool CanReuseTransform { get { return canReuseTransform; } }
         public bool CanTransformMultipleBlocks { get { return canTransformMultipleBlocks; } }
@@ -74,13 +78,17 @@ namespace PoSH_Sodium
             if (direction == Direction.Encrypt)
             {
                 var detatchedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
-                mac = detatchedBox.Mac;
                 Array.Copy(detatchedBox.CipherText, 0, outputBuffer, outputOffset, detatchedBox.CipherText.Length);
+                Array.Copy(detatchedBox.Mac, 0, outputBuffer, outputOffset + detatchedBox.CipherText.Length, detatchedBox.Mac.Length);
                 return detatchedBox.CipherText.Length;
             }
             else
             {
-                var decryptedData = PublicKeyBox.OpenDetached(message, mac, nonce, privateKey, publicKey);
+                var cipherText = new byte[message.Length - 16];
+                var mac = new byte[16];
+                Array.Copy(message, 0, cipherText, 0, cipherText.Length);
+                Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
+                var decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);
                 Array.Copy(decryptedData, 0, outputBuffer, outputOffset, decryptedData.Length);
                 return decryptedData.Length;
             }
@@ -95,15 +103,21 @@ namespace PoSH_Sodium
             if (direction == Direction.Encrypt)
             {
                 var detatchedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
-                mac = detatchedBox.Mac;
-                return detatchedBox.CipherText;
+                var results = new byte[detatchedBox.CipherText.Length + detatchedBox.Mac.Length];
+                Array.Copy(detatchedBox.CipherText, results, detatchedBox.CipherText.Length);
+                Array.Copy(detatchedBox.Mac, 0, results, detatchedBox.CipherText.Length, detatchedBox.Mac.Length);
+                return results;
             }
             else
             {
                 //ignore this is mac and nonce?
                 if (message.Length > 0)
                 {
-                    var decryptedData = PublicKeyBox.OpenDetached(message, mac, nonce, privateKey, publicKey);
+                    var cipherText = new byte[message.Length - 40];
+                    var mac = new byte[16];
+                    Array.Copy(message, 0, cipherText, 0, cipherText.Length);
+                    Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
+                    var decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);
                     return decryptedData;
                 }
                 return new byte[0];
