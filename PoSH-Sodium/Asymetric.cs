@@ -49,7 +49,7 @@ namespace PoSH_Sodium
             direction = Direction;
             if (direction == AsymetricCryptoTransform.Direction.Encrypt)
             {
-                inputBlockSize = 4096;
+                inputBlockSize = 4096; //must be larger than 24, nonce is at end
                 outputBlockSize = 4112;
             }
             else
@@ -117,8 +117,11 @@ namespace PoSH_Sodium
                     var mac = new byte[16];
                     Array.Copy(message, 0, cipherText, 0, cipherText.Length);
                     Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
-                    var decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);
-                    return decryptedData;
+                    if (cipherText.Length > 0)
+                    {
+                        var decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);
+                        return decryptedData;
+                    }
                 }
                 return new byte[0];
                 //return new byte[0];

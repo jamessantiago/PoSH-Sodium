@@ -51,29 +51,8 @@ namespace PoSH_Sodium
                 using (FileStream destination = new FileStream(OutFile, FileMode.Append, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
                     source.CopyTo(cryptoStream);
-                    //int bytesRead = 0;
-                    //int chunkSize = 4096;
-                    //byte[] chunkData = new byte[chunkSize];
 
-                    //while ((bytesRead = source.Read(chunkData, 0, chunkSize)) > 0)
-                    //{
-                    //    var lastPos = source.Position - bytesRead;
-                    //    if (bytesRead != chunkSize && lastPos < dataEnd)
-                    //    {
-                    //        var dataLength = (int)(dataEnd - lastPos);
-                    //        byte[] lastData = new byte[dataLength];
-                    //        Array.Copy(chunkData, 0, lastData, 0, dataLength);
-                    //        cryptoStream.Write(lastData, 0, dataLength);
-                    //    }
-                    //    else if (lastPos < dataEnd)
-                    //        cryptoStream.Write(chunkData, 0, bytesRead);
-                    //}
-                    //cryptoStream.Flush();
-                }
-
-                WriteObject(nonce);
             }
             else
             {
