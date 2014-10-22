@@ -49,7 +49,7 @@ namespace PoSH_Sodium
             canTransformMultipleBlocks = true;
             direction = Direction;
             mac = Mac;
-            inputBlockSize = 40; // 16 mac + 24 nonce so the final block always has added data when decrypting
+            inputBlockSize = 16; // 16 mac + 24 nonce so the final block always has added data when decrypting
             outputBlockSize = 16;
             //block size?
         }
@@ -100,12 +100,15 @@ namespace PoSH_Sodium
             }
             else
             {
-                //ignore this is mac and nonce
-                //var decryptedData = PublicKeyBox.OpenDetached(message, mac, nonce, privateKey, publicKey);
-                //return decryptedData;
+                //ignore this is mac and nonce?
+                if (message.Length > 0)
+                {
+                    var decryptedData = PublicKeyBox.OpenDetached(message, mac, nonce, privateKey, publicKey);
+                    return decryptedData;
+                }
                 return new byte[0];
-            }
-            
+                //return new byte[0];
+            }            
         }
 
         private bool IncrementNonce(ref byte[] nonce, int position)
