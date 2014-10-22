@@ -228,6 +228,16 @@ Describe "Encrypt-Message" {
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
+   Context "file encryption" {
+	  It "encrypts file" {
+		 rm *.testtxt
+		 $key = New-CurveKeyPair
+		 "test file" | out-File "testFile.testtxt"
+		 $message = Encrypt-Message -File "testFile.testtxt" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -OutFile EncryptFile.testtxt
+		 $(test-path EncryptFile.testtxt) | Should be $true
+		 rm *.testtxt
+	  }
+   }
 }
 
 ###########################################
@@ -264,6 +274,18 @@ Describe "Decrypt-Message" {
 		 $secretMessage = Encrypt-Message -Message "This is a test" -PublicKey $publicKey -PrivateKey $privateKey
 		 $message = Decrypt-Message -Message $secretMessage.Message -PublicKey $publicKey -PrivateKey $privateKey -Nonce $secretMessage.Nonce
 		 $message| Should be "This is a test"
+	  }
+   }
+   Context "file decryption" {
+	  It "decrypts file" {
+	    rm *.testtxt
+		$key = New-CurveKeyPair
+		"test file" | out-File "testFile.testtxt"
+		Encrypt-Message -File "testFile.testtxt" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -OutFile EncryptFile.testtxt
+		$(test-path EncryptFile.testtxt) | Should be $true
+		Decrypt-Message -File "EncryptFile.testtxt" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -OutFile DecryptFile.testtxt
+		$(cat DecryptFile.testtxt) | Should be "test file"
+		rm *.testtxt
 	  }
    }
 }
