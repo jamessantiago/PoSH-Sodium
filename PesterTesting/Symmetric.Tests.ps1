@@ -51,6 +51,16 @@ Describe "Encrypt-SymmetricMessage" {
 		 $message.Message.GetType().Name | Should Be "Byte[]"
 	  }
    }
+   Context "file encryption" {
+	  It "encrypts file" {
+		 rm *.testtxt
+		 $key = New-Key
+		 "test file" | out-File "testFile.testtxt"
+		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt
+		 $(test-path EncryptFile.testtxt) | Should be $true
+		 rm *.testtxt
+	  }
+   }
 }
 
 
@@ -195,26 +205,16 @@ Describe "Decrypt-SymmetricMessage" {
 		 $message | Should be "This is a test"
 	  }
    }
-}
-
-Describe "Decrypt-RawSymmetricMessage" {
-   Context "no parameter is provided" {
-	  It "fails" {
-		 { Decrypt-RawSymmetricMessage } | Should Throw
-	  }
-   }
-   Context "message and keys are provided" {
-	  It "returns decrypted message" {
-		 $key = New-Key		 
-		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Raw
-		 $message = Decrypt-RawSymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce
-		 $message | Should be "This is a test"
-	  }
-	  It "returns decrypted message per encoding" {
-		 $key = New-Key		 
-		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -key $key -Encoding "UTF8" -Raw
-		 $message = Decrypt-RawSymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce -Encoding "UTF8"
-		 $message | Should be "This is a test"
+   Context "file decryption" {
+	  It "decrypts file" {
+	    rm *.testtxt
+		$key = New-Key
+		"test file" | out-File "testFile.testtxt"
+		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt
+		$(test-path EncryptFile.testtxt) | Should be $true
+		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key -OutFile DecryptFile.testtxt
+		$(cat DecryptFile.testtxt) | Should be "test file"
+		rm *.testtxt
 	  }
    }
 }

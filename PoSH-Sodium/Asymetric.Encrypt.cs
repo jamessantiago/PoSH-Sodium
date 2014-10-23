@@ -24,7 +24,7 @@ namespace PoSH_Sodium
                     break;
                 default:
                     break;
-            }            
+            }
         }
 
         protected override void ProcessRecord()

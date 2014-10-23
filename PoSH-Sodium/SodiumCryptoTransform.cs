@@ -21,17 +21,11 @@ namespace PoSH_Sodium
         private Direction direction;
 
         private byte[] key;
-        private SymmetricEncryptionType type;
 
         public enum Direction
         {
             Encrypt,
             Decrypt
-        }
-
-        public enum SymmetricEncryptionType
-        {
-            Symmetric
         }
 
         public SodiumCryptoTransform(byte[] Nonce, byte[] PrivateKey, byte[] PublicKey, Direction Direction)
@@ -56,9 +50,8 @@ namespace PoSH_Sodium
             //block size?
         }
 
-        public SodiumCryptoTransform(byte[] Nonce, byte[] SymmetricKey, Direction Direction, SymmetricEncryptionType Type)
+        public SodiumCryptoTransform(byte[] Nonce, byte[] SymmetricKey, Direction Direction)
         {
-            type = Type;
             key = SymmetricKey;
             nonce = Nonce;
             canReuseTransform = false;
@@ -94,7 +87,7 @@ namespace PoSH_Sodium
             if (direction == Direction.Encrypt)
             {
                 DetachedBox detachedBox;
-                if (type != null && type == SymmetricEncryptionType.Symmetric)
+                if (key != null)
                     detachedBox = SecretBox.CreateDetached(message, nonce, key);
                 else
                     detachedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
@@ -109,7 +102,7 @@ namespace PoSH_Sodium
                 Array.Copy(message, 0, cipherText, 0, cipherText.Length);
                 Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
                 byte[] decryptedData;
-                if (type != null && type == SymmetricEncryptionType.Symmetric)
+                if (key != null)
                     decryptedData = SecretBox.OpenDetached(cipherText, mac, nonce, key);
                 else
                     decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);
@@ -127,7 +120,7 @@ namespace PoSH_Sodium
             if (direction == Direction.Encrypt)
             {
                 DetachedBox detachedBox;
-                if (type != null && type == SymmetricEncryptionType.Symmetric)
+                if (key != null)
                     detachedBox = SecretBox.CreateDetached(message, nonce, key);
                 else
                     detachedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
@@ -148,7 +141,7 @@ namespace PoSH_Sodium
                     if (cipherText.Length > 0)
                     {
                         byte[] decryptedData;
-                        if (type != null && type == SymmetricEncryptionType.Symmetric)
+                        if (key != null)
                             decryptedData = SecretBox.OpenDetached(cipherText, mac, nonce, key);
                         else
                             decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);

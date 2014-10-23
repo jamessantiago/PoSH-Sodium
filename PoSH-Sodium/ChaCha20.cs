@@ -74,7 +74,7 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            byte[] message;
+            byte[] message;            
             message = StreamEncryption.DecryptChaCha20(rawMessage, Nonce, Key);
             if (Raw.IsTrue())
             {
