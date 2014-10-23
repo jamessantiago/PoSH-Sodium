@@ -33,10 +33,10 @@ namespace PoSH_Sodium
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
-                    OutFile = File;                    
+                    OutFile = File;
 
-                using (ICryptoTransform transform = new AsymetricCryptoTransform(nonce, PrivateKey, PublicKey, AsymetricCryptoTransform.Direction.Encrypt))
-                using (FileStream destination = new FileStream(OutFile, FileMode.Append, FileAccess.Write, FileShare.None))
+                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, PrivateKey, PublicKey, SodiumCryptoTransform.Direction.Encrypt))
+                using (FileStream destination = new FileStream(OutFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))                
                 {

@@ -17,7 +17,7 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            var nonce = StreamEncryption.GenerateNonceChaCha20();
+            var nonce = StreamEncryption.GenerateNonceChaCha20();            
             var encryptedMessage = StreamEncryption.EncryptChaCha20(rawMessage, nonce, Key);
             if (Raw.IsTrue())
             {
