@@ -35,7 +35,7 @@ namespace PoSH_Sodium
             nonce = Nonce;
 
             canReuseTransform = false;
-            canTransformMultipleBlocks = true;
+            canTransformMultipleBlocks = false;
             direction = Direction;
             if (direction == SodiumCryptoTransform.Direction.Encrypt)
             {
@@ -55,7 +55,7 @@ namespace PoSH_Sodium
             key = SymmetricKey;
             nonce = Nonce;
             canReuseTransform = false;
-            canTransformMultipleBlocks = true;
+            canTransformMultipleBlocks = false;
             direction = Direction;
             if (direction == SodiumCryptoTransform.Direction.Encrypt)
             {
@@ -93,11 +93,11 @@ namespace PoSH_Sodium
                     detachedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
                 Array.Copy(detachedBox.CipherText, 0, outputBuffer, outputOffset, detachedBox.CipherText.Length);
                 Array.Copy(detachedBox.Mac, 0, outputBuffer, outputOffset + detachedBox.CipherText.Length, detachedBox.Mac.Length);
-                return detachedBox.CipherText.Length;
+                return detachedBox.CipherText.Length + detachedBox.Mac.Length;
             }
             else
             {
-                var cipherText = new byte[message.Length - 16];
+                var cipherText = new byte[inputCount - 16];
                 var mac = new byte[16];
                 Array.Copy(message, 0, cipherText, 0, cipherText.Length);
                 Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
@@ -134,7 +134,7 @@ namespace PoSH_Sodium
                 //ignore this is mac and nonce?
                 if (message.Length > 0)
                 {
-                    var cipherText = new byte[message.Length - 40];
+                    var cipherText = new byte[inputCount - 40];
                     var mac = new byte[16];
                     Array.Copy(message, 0, cipherText, 0, cipherText.Length);
                     Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
