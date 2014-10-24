@@ -17,8 +17,7 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            byte[] hashedMessage;
-            
+            byte[] hashedMessage;            
             hashedMessage = GenericHash.Hash(rawMessage, Key, HashLength);            
             if (Raw.IsTrue())
             {

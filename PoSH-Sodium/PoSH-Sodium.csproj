@@ -37,6 +37,9 @@
       <HintPath>..\packages\lz4net.1.0.5.93\lib\net40-client\LZ4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Sodium, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\libsodium-net.0.6.0\lib\Net40\Sodium.dll</HintPath>
@@ -76,6 +79,7 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Hashing.cs" />
     <Compile Include="OneTimeAuth.cs" />
+    <Compile Include="ConvertKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SodiumCryptoTransform.cs" />
     <Compile Include="Symmetric.cs" />

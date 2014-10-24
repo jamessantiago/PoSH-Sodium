@@ -30,6 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Hashing.Tests.ps1" />
+    <Content Include="Misc.Tests.ps1" />
     <Content Include="XSalsa20.Tests.ps1" />
     <Content Include="ChaCha20.Tests.ps1" />
     <Content Include="RunTests.bat" />
