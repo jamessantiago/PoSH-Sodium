@@ -63,4 +63,41 @@ namespace PoSH_Sodium
                 HelpMessage = "Name of this key")]
         public string KeyName;
     }
+
+    [Cmdlet(VerbsData.ConvertFrom, "JsonKey")]
+    public class ConvertBase64String : PSCmdlet
+    {
+        protected override void EndProcessing()
+        {
+            var keyType = new {
+                        KeyName = string.Empty,
+                        Key = string.Empty,
+                        KeyLength = 0,
+                        PublicKey = string.Empty,
+                        PublicKeyLength = 0,
+                        PrivateKey = string.Empty,
+                        PrivateKeyLength = 0
+                    };
+            var keyOut = JsonConvert.DeserializeAnonymousType(Key, keyType);
+            if (keyOut.Key.HasValue())
+            {
+                WriteObject(keyOut.Key.ToByteArrayFromBase64String());
+            }
+            else
+            {
+                var keyPair = new KeyPair(
+                    keyOut.PublicKey.ToByteArrayFromBase64String(),
+                    keyOut.PrivateKey.ToByteArrayFromBase64String());
+                WriteObject(keyPair);
+            }
+        }
+
+        [Parameter(
+                Mandatory = true,
+                ValueFromPipelineByPropertyName = true,
+                ValueFromPipeline = true,
+                Position = 0,
+                HelpMessage = "Key to convert")]
+        public string Key;
+    }
 }

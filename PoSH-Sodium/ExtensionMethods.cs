@@ -86,6 +86,11 @@ namespace PoSH_Sodium
             return Convert.ToBase64String(value);
         }
 
+        public static byte[] ToByteArrayFromBase64String(this string value)
+        {
+            return Convert.FromBase64String(value);
+        }
+
         public static bool IsTrue(this SwitchParameter s)
         {
             return s.IsPresent && s.ToBool();

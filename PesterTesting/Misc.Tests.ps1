@@ -35,3 +35,26 @@ Describe "ConvertFrom-Key" {
 	  }
    }
 }
+
+Describe "ConvertFrom-JsonKey" {
+   Context "key is converted" {
+	  It "converts key to json string" {
+		 $key = New-Key
+		 $outKey = $key | ConvertFrom-Key
+	     $outKey.GetType().Name | Should Be "String"
+		 $outKey | ConvertFrom-JsonKey
+	  }
+	  It "converts keypair to json string" {
+		 $key = New-KeyPair
+		 $outKey = $key | ConvertFrom-Key
+	     $outKey.GetType().Name | Should Be "String"
+		 $outKey | ConvertFrom-JsonKey
+	  }
+	  It "converts curve keypair to json string" {
+		 $key = New-CurveKeyPair
+		 $outKey = $key | ConvertFrom-Key
+	     $outKey.GetType().Name | Should Be "String"
+	     $outKey | ConvertFrom-JsonKey
+	  }
+   }
+}
