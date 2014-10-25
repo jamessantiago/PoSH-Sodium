@@ -1,3 +1,5 @@
+![image](../blob/master/Demo.gif?raw=true)
+
 PoSH-Sodium
 ===========
 
