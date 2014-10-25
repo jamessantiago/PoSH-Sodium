@@ -1,4 +1,4 @@
-![image](/blob/master/Demo.gif?raw=true)
+![image](https://raw.githubusercontent.com/jamessantiago/PoSH-Sodium/master/Demo.gif)
 
 PoSH-Sodium
 ===========
