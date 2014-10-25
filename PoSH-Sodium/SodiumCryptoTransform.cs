@@ -19,6 +19,7 @@ namespace PoSH_Sodium
         private int inputBlockSize;
         private int outputBlockSize;
         private Direction direction;
+        private SymmetricAlgorithm algorithm;
 
         private byte[] key;
 
@@ -26,6 +27,13 @@ namespace PoSH_Sodium
         {
             Encrypt,
             Decrypt
+        }
+
+        public enum SymmetricAlgorithm
+        {
+            Default,
+            ChaCha20,
+            XSalsa
         }
 
         public SodiumCryptoTransform(byte[] Nonce, byte[] PrivateKey, byte[] PublicKey, Direction Direction)
@@ -50,13 +58,14 @@ namespace PoSH_Sodium
             //block size?
         }
 
-        public SodiumCryptoTransform(byte[] Nonce, byte[] SymmetricKey, Direction Direction)
+        public SodiumCryptoTransform(byte[] Nonce, byte[] SymmetricKey, Direction Direction, SymmetricAlgorithm Algorithm)
         {
             key = SymmetricKey;
             nonce = Nonce;
             canReuseTransform = false;
             canTransformMultipleBlocks = true;
             direction = Direction;
+            algorithm = Algorithm;
             if (direction == SodiumCryptoTransform.Direction.Encrypt)
             {
                 inputBlockSize = 4096; //must be larger than 24, nonce is at end
@@ -86,24 +95,75 @@ namespace PoSH_Sodium
 
             if (direction == Direction.Encrypt)
             {
-                DetachedBox detachedBox;
+                DetachedBox detachedBox = null;
+                byte[] cipherText = null;
                 if (key != null)
-                    detachedBox = SecretBox.CreateDetached(message, nonce, key);
+                {
+                    switch (algorithm)
+                    {
+                        case SymmetricAlgorithm.Default:
+                            detachedBox = SecretBox.CreateDetached(message, nonce, key);
+                            break;
+                        case SymmetricAlgorithm.ChaCha20:
+                            cipherText = StreamEncryption.EncryptChaCha20(message, nonce, key);
+                            break;
+                        case SymmetricAlgorithm.XSalsa:
+                            cipherText = StreamEncryption.Encrypt(message, nonce, key);
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
                 else
+                {
                     detachedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
-                Array.Copy(detachedBox.CipherText, 0, outputBuffer, outputOffset, detachedBox.CipherText.Length);
-                Array.Copy(detachedBox.Mac, 0, outputBuffer, outputOffset + detachedBox.CipherText.Length, detachedBox.Mac.Length);
-                return detachedBox.CipherText.Length;
+                }
+                if (algorithm == SymmetricAlgorithm.XSalsa || algorithm == SymmetricAlgorithm.ChaCha20)
+                {
+                    Array.Copy(cipherText, 0, outputBuffer, outputOffset, cipherText.Length);
+                    return cipherText.Length;
+                }
+                else
+                {
+                    Array.Copy(detachedBox.CipherText, 0, outputBuffer, outputOffset, detachedBox.CipherText.Length);
+                    Array.Copy(detachedBox.Mac, 0, outputBuffer, outputOffset + detachedBox.CipherText.Length, detachedBox.Mac.Length);
+                    return detachedBox.CipherText.Length;
+                }                
             }
             else
             {
-                var cipherText = new byte[message.Length - 16];
+                byte[] cipherText = null;
                 var mac = new byte[16];
-                Array.Copy(message, 0, cipherText, 0, cipherText.Length);
-                Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
-                byte[] decryptedData;
+                if (algorithm != SymmetricAlgorithm.ChaCha20 && algorithm != SymmetricAlgorithm.XSalsa)
+                {
+                    cipherText = new byte[message.Length - 16];
+                    Array.Copy(message, 0, cipherText, 0, cipherText.Length);
+                    Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
+                }
+                else
+                {
+                    cipherText = new byte[message.Length];
+                    Array.Copy(message, 0, cipherText, 0, cipherText.Length);
+                }
+                byte[] decryptedData = null;
                 if (key != null)
-                    decryptedData = SecretBox.OpenDetached(cipherText, mac, nonce, key);
+                {
+                    switch (algorithm)
+                    {
+                        case SymmetricAlgorithm.Default:
+                            decryptedData = SecretBox.OpenDetached(cipherText, mac, nonce, key);
+                            break;
+                        case SymmetricAlgorithm.ChaCha20:
+                            decryptedData = StreamEncryption.DecryptChaCha20(cipherText, nonce, key);
+                            break;
+                        case SymmetricAlgorithm.XSalsa:
+                            decryptedData = StreamEncryption.Decrypt(cipherText, nonce, key);
+                            break;
+                        default:
+                            break;
+                    }                    
+                }
                 else
                     decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);
                 Array.Copy(decryptedData, 0, outputBuffer, outputOffset, decryptedData.Length);
@@ -119,37 +179,80 @@ namespace PoSH_Sodium
 
             if (direction == Direction.Encrypt)
             {
-                DetachedBox detachedBox;
+                DetachedBox detachedBox = null;
+                byte[] cipherText = null;
                 if (key != null)
-                    detachedBox = SecretBox.CreateDetached(message, nonce, key);
+                {
+                    switch (algorithm)
+                    {
+                        case SymmetricAlgorithm.Default:
+                            detachedBox = SecretBox.CreateDetached(message, nonce, key);
+                            break;
+                        case SymmetricAlgorithm.ChaCha20:
+                            cipherText = StreamEncryption.EncryptChaCha20(message, nonce, key);
+                            break;
+                        case SymmetricAlgorithm.XSalsa:
+                            cipherText = StreamEncryption.Encrypt(message, nonce, key);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 else
+                {
                     detachedBox = PublicKeyBox.CreateDetached(message, nonce, privateKey, publicKey);
-                var results = new byte[detachedBox.CipherText.Length + detachedBox.Mac.Length];
-                Array.Copy(detachedBox.CipherText, results, detachedBox.CipherText.Length);
-                Array.Copy(detachedBox.Mac, 0, results, detachedBox.CipherText.Length, detachedBox.Mac.Length);
-                return results;
+                }
+                if (algorithm == SymmetricAlgorithm.XSalsa || algorithm == SymmetricAlgorithm.ChaCha20)
+                {
+                    var results = new byte[cipherText.Length];
+                    Array.Copy(cipherText, results, cipherText.Length);
+                    return results;
+                }
+                else
+                {
+                    var results = new byte[detachedBox.CipherText.Length + detachedBox.Mac.Length];
+                    Array.Copy(detachedBox.CipherText, results, detachedBox.CipherText.Length);
+                    Array.Copy(detachedBox.Mac, 0, results, detachedBox.CipherText.Length, detachedBox.Mac.Length);
+                    return results;
+                }                
             }
             else
             {
-                //ignore this is mac and nonce?
                 if (message.Length > 0)
                 {
-                    var cipherText = new byte[message.Length - 40];
-                    var mac = new byte[16];
-                    Array.Copy(message, 0, cipherText, 0, cipherText.Length);
-                    Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
-                    if (cipherText.Length > 0)
+                    if (algorithm == SymmetricAlgorithm.XSalsa || algorithm == SymmetricAlgorithm.ChaCha20)
                     {
-                        byte[] decryptedData;
-                        if (key != null)
-                            decryptedData = SecretBox.OpenDetached(cipherText, mac, nonce, key);
+                        byte[] cipherText = null;
+                        if (algorithm == SymmetricAlgorithm.ChaCha20)
+                            cipherText = new byte[message.Length - 8];
                         else
-                            decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);
+                            cipherText = new byte[message.Length - 24];
+                        Array.Copy(message, cipherText, cipherText.Length);
+                        byte[] decryptedData = null;
+                        if (algorithm == SymmetricAlgorithm.ChaCha20)
+                            decryptedData = StreamEncryption.DecryptChaCha20(cipherText, nonce, key);
+                        else if (algorithm == SymmetricAlgorithm.XSalsa)
+                            decryptedData = StreamEncryption.Decrypt(cipherText, nonce, key);
                         return decryptedData;
+                    }
+                    else
+                    {
+                        var cipherText = new byte[message.Length - 40];
+                        var mac = new byte[16];
+                        Array.Copy(message, 0, cipherText, 0, cipherText.Length);
+                        Array.Copy(message, cipherText.Length, mac, 0, mac.Length);
+                        if (cipherText.Length > 0)
+                        {
+                            byte[] decryptedData;
+                            if (key != null)
+                                decryptedData = SecretBox.OpenDetached(cipherText, mac, nonce, key);
+                            else
+                                decryptedData = PublicKeyBox.OpenDetached(cipherText, mac, nonce, privateKey, publicKey);
+                            return decryptedData;
+                        }
                     }
                 }
                 return new byte[0];
-                //return new byte[0];
             }
         }
 

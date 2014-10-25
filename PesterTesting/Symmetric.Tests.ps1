@@ -43,11 +43,31 @@ Describe "Encrypt-SymmetricMessage" {
 		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key
 		 $message | Should Not BeNullOrEmpty
 	  }
+	  It "returns chacha encrypted message" {
+		 $key = New-Key		 
+		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Type ChaCha20
+		 $message | Should Not BeNullOrEmpty
+	  }
+	  It "returns xsalsa encrypted message" {
+		 $key = New-Key		 
+		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Type XSalsa20
+		 $message | Should Not BeNullOrEmpty
+	  }
    }
    Context "advanced options are provided" {
 	  It "returns raw encrypted message" {
 		 $key = New-Key
 		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Raw 
+		 $message.Message.GetType().Name | Should Be "Byte[]"
+	  }
+	  It "returns raw chacha encrypted message" {
+		 $key = New-Key
+		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Raw -Type ChaCha20
+		 $message.Message.GetType().Name | Should Be "Byte[]"
+	  }
+	  It "returns raw xsalsa encrypted message" {
+		 $key = New-Key
+		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Raw -Type XSalsa20
 		 $message.Message.GetType().Name | Should Be "Byte[]"
 	  }
    }
@@ -57,6 +77,22 @@ Describe "Encrypt-SymmetricMessage" {
 		 $key = New-Key
 		 "test file" | out-File "testFile.testtxt"
 		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt
+		 $(test-path EncryptFile.testtxt) | Should be $true
+		 rm *.testtxt
+	  }
+	  It "encrypts file with chacha" {
+		 rm *.testtxt
+		 $key = New-Key
+		 "test file" | out-File "testFile.testtxt"
+		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt -Type "ChaCha20"
+		 $(test-path EncryptFile.testtxt) | Should be $true
+		 rm *.testtxt
+	  }
+	  It "encrypts file with xsalsa" {
+		 rm *.testtxt
+		 $key = New-Key
+		 "test file" | out-File "testFile.testtxt"
+		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt -Type "XSalsa20"
 		 $(test-path EncryptFile.testtxt) | Should be $true
 		 rm *.testtxt
 	  }
@@ -198,6 +234,18 @@ Describe "Decrypt-SymmetricMessage" {
 		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce
 		 $message | Should be "This is a test"
 	  }
+	  It "returns chacha decrypted message" {
+		 $key = New-Key		 
+		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Type ChaCha20
+		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce -Type ChaCha20
+		 $message | Should be "This is a test"
+	  }
+	  It "returns xsalsa decrypted message" {
+		 $key = New-Key		 
+		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Type XSalsa20
+		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce -Type XSalsa20
+		 $message | Should be "This is a test"
+	  }
 	  It "returns decrypted message per encoding" {
 		 $key = New-Key		 
 		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -key $key -Encoding "UTF8"
@@ -213,6 +261,26 @@ Describe "Decrypt-SymmetricMessage" {
 		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt
 		$(test-path EncryptFile.testtxt) | Should be $true
 		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key -OutFile DecryptFile.testtxt
+		$(cat DecryptFile.testtxt) | Should be "test file"
+		rm *.testtxt
+	  }
+	  It "chacha decrypts file" {
+	    rm *.testtxt
+		$key = New-Key
+		"test file" | out-File "testFile.testtxt"
+		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt -Type ChaCha20
+		$(test-path EncryptFile.testtxt) | Should be $true
+		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key -OutFile DecryptFile.testtxt -Type ChaCha20
+		$(cat DecryptFile.testtxt) | Should be "test file"
+		rm *.testtxt
+	  }
+	  It "xsalsa decrypts file" {
+	    rm *.testtxt
+		$key = New-Key
+		"test file" | out-File "testFile.testtxt"
+		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt -Type XSalsa20
+		$(test-path EncryptFile.testtxt) | Should be $true
+		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key -OutFile DecryptFile.testtxt -Type XSalsa20
 		$(cat DecryptFile.testtxt) | Should be "test file"
 		rm *.testtxt
 	  }

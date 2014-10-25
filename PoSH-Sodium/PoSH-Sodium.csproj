@@ -75,7 +75,6 @@
       <DependentUpon>Asymetric.cs</DependentUpon>
     </Compile>
     <Compile Include="Asymetric.cs" />
-    <Compile Include="ChaCha20.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Hashing.cs" />
     <Compile Include="OneTimeAuth.cs" />
@@ -98,7 +97,6 @@
     <Compile Include="Symmetric.Verify.cs">
       <DependentUpon>Symmetric.cs</DependentUpon>
     </Compile>
-    <Compile Include="XSalsa20.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

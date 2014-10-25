@@ -25,17 +25,32 @@ namespace PoSH_Sodium
                 default:
                     break;
             }
+            switch (Type)
+            {
+                case "ChaCha20":
+                    algo = SodiumCryptoTransform.SymmetricAlgorithm.ChaCha20;
+                    nonce = StreamEncryption.GenerateNonceChaCha20();
+                    break;
+                case "XSalsa20":
+                    algo = SodiumCryptoTransform.SymmetricAlgorithm.XSalsa;
+                    nonce = StreamEncryption.GenerateNonce();
+                    break;                
+                case "Default":
+                default:
+                    algo = SodiumCryptoTransform.SymmetricAlgorithm.Default;
+                    nonce = SecretBox.GenerateNonce();
+                    break;
+            }
         }
 
         protected override void ProcessRecord()
         {
-            var nonce = SecretBox.GenerateNonce();
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
                     OutFile = File;
 
-                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, Key, SodiumCryptoTransform.Direction.Encrypt))
+                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, Key, SodiumCryptoTransform.Direction.Encrypt, algo))
                 using (FileStream destination = new FileStream(OutFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -48,7 +63,20 @@ namespace PoSH_Sodium
             }
             else
             {
-                var encryptedMessage = SecretBox.Create(rawMessage, nonce, Key);
+                byte[] encryptedMessage = null;
+                switch (algo)
+                {
+                    case SodiumCryptoTransform.SymmetricAlgorithm.ChaCha20:
+                        encryptedMessage = StreamEncryption.EncryptChaCha20(rawMessage, nonce, Key);
+                        break;
+                    case SodiumCryptoTransform.SymmetricAlgorithm.XSalsa:
+                        encryptedMessage = StreamEncryption.Encrypt(rawMessage, nonce, Key);
+                        break;
+                    case SodiumCryptoTransform.SymmetricAlgorithm.Default:
+                    default:
+                        encryptedMessage = SecretBox.Create(rawMessage, nonce, Key);
+                        break;
+                }
                 if (Raw.IsTrue())
                 {
                     var result = new RawEncryptedMessage() { Message = encryptedMessage, Nonce = nonce };
@@ -63,6 +91,8 @@ namespace PoSH_Sodium
         }
 
         private byte[] rawMessage;
+        private SodiumCryptoTransform.SymmetricAlgorithm algo;
+        private byte[] nonce;
 
         [Parameter(
             ParameterSetName = "String",
@@ -138,5 +168,13 @@ namespace PoSH_Sodium
             HelpMessage = "Encoding to use when converting the message to a byte array.  Default is .NET Unicode (UTF16)")]
         [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
         public string Encoding;
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            Position = 5,
+            HelpMessage = "Encryption type to use")]
+        [ValidateSet("Default", "ChaCha20", "XSalsa20")]
+        public string Type;
     }
 }
