@@ -7,37 +7,56 @@ using Sodium;
 
 namespace PoSH_Sodium
 {
-    [Cmdlet(VerbsData.Convert, "PublicKey")]
+    [Cmdlet(VerbsData.ConvertTo, "CurveKey")]
     public class ConvertPublic : PSCmdlet
     {
         protected override void ProcessRecord()
         {
-            var pubKey = PublicKeyAuth.ConvertEd25519PublicKeyToCurve25519PublicKey(PublicKey);
-            WriteObject(pubKey);
+            if (ParameterSetName == "KeyPair")
+            {
+                KeyPair.PublicKey = PublicKeyAuth.ConvertEd25519PublicKeyToCurve25519PublicKey(KeyPair.PublicKey.ToByteArrayFromBase64String()).ToBase64String();
+                KeyPair.PrivateKey = PublicKeyAuth.ConvertEd25519SecretKeyToCurve25519SecretKey(KeyPair.PrivateKey.ToByteArrayFromBase64String()).ToBase64String();
+                KeyPair.KeyType = "Curve25519";
+                WriteObject(KeyPair);
+            }
+            else if (ParameterSetName == "PublicKey")
+            {
+                PublicKey.PublicKey = PublicKeyAuth.ConvertEd25519PublicKeyToCurve25519PublicKey(PublicKey.PublicKey.ToByteArrayFromBase64String()).ToBase64String();
+                PublicKey.KeyType = "Curve25519";
+                WriteObject(PublicKey);
+            }
+            else if (ParameterSetName == "PrivateKey")
+            {
+                PrivateKey.PrivateKey = PublicKeyAuth.ConvertEd25519SecretKeyToCurve25519SecretKey(PrivateKey.PrivateKey.ToByteArrayFromBase64String()).ToBase64String();
+                PrivateKey.KeyType = "Curve25519";
+                WriteObject(PublicKey);
+            }
+            
         }
 
         [Parameter(
+            ParameterSetName = "KeyPair",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 0,
             HelpMessage = "Ed25519 public key to convert")]
-        public byte[] PublicKey;
-    }
-
-    [Cmdlet(VerbsData.Convert, "PrivateKey")]
-    public class ConvertPrivate : PSCmdlet
-    {
-        protected override void ProcessRecord()
-        {
-            var pubKey = PublicKeyAuth.ConvertEd25519SecretKeyToCurve25519SecretKey(PrivateKey);
-            WriteObject(pubKey);
-        }
+        public SodiumKeyPair KeyPair;
 
         [Parameter(
+            ParameterSetName = "PublicKey",
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            Position = 0,
+            HelpMessage = "Ed25519 public key to convert")]
+        public SodiumPublicKey PublicKey;
+
+        [Parameter(
+            ParameterSetName = "PrivateKey",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 0,
             HelpMessage = "Ed25519 private key to convert")]
-        public byte[] PrivateKey;
+        public SodiumPrivateKey PrivateKey;
     }
+
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Management.Automation;
+using System.ComponentModel;
 using LZ4;
 
 namespace PoSH_Sodium
@@ -86,9 +87,36 @@ namespace PoSH_Sodium
             return Convert.ToBase64String(value);
         }
 
+        public static byte[] ToByteArrayFromBase64String(this string value)
+        {
+            return Convert.FromBase64String(value);
+        }
+
         public static bool IsTrue(this SwitchParameter s)
         {
             return s.IsPresent && s.ToBool();
+        }
+
+        public static string GetDescription<T>(this T? enumerationValue) where T : struct
+        {
+            return enumerationValue.HasValue ? enumerationValue.Value.GetDescription() : string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the Description attribute text or the .ToString() of an enum member
+        /// </summary>
+        public static string GetDescription<T>(this T enumerationValue) where T : struct
+        {
+            var type = enumerationValue.GetType();
+            if (!type.IsEnum) throw new ArgumentException("EnumerationValue must be of Enum type", "enumerationValue");
+            var memberInfo = type.GetMember(enumerationValue.ToString());
+            if (memberInfo.Length > 0)
+            {
+                var attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attrs.Length > 0)
+                    return ((DescriptionAttribute)attrs[0]).Description;
+            }
+            return enumerationValue.ToString();
         }
     }
 }

@@ -15,12 +15,26 @@ namespace PoSH_Sodium
                 if (Seed != null)
                 {
                     var keypair = PublicKeyAuth.GenerateKeyPair(Seed); //throws error if seed is not 32 bytes in length
-                    WriteObject(keypair);
+                    var sKey = new SodiumKeyPair()
+                    {
+                        Info = this.Info,
+                        KeyType = "Ed25519",
+                        PrivateKey = keypair.PrivateKey.ToBase64String(),
+                        PublicKey = keypair.PublicKey.ToBase64String()
+                    };
+                    WriteObject(sKey);
                 }
                 else
                 {
                     var keypair = PublicKeyAuth.GenerateKeyPair();
-                    WriteObject(keypair);
+                    var sKey = new SodiumKeyPair()
+                    {
+                        Info = this.Info,
+                        KeyType = "Ed25519",
+                        PrivateKey = keypair.PrivateKey.ToBase64String(),
+                        PublicKey = keypair.PublicKey.ToBase64String()
+                    };
+                    WriteObject(sKey);
                 }
             }
 
@@ -31,6 +45,14 @@ namespace PoSH_Sodium
                 Position = 0,
                 HelpMessage = "Seed to allow deterministic key generation")]
             public byte[] Seed;
+
+            [Parameter(
+                Mandatory = false,
+                ValueFromPipelineByPropertyName = true,
+                ValueFromPipeline = true,
+                Position = 1,
+                HelpMessage = "Optional information to describe key")]
+            public string Info;
         }
 
         [Cmdlet(VerbsCommon.New, "CurveKeyPair")] 
@@ -41,12 +63,26 @@ namespace PoSH_Sodium
                 if (PrivateKey != null)
                 {
                     var keypair = PublicKeyBox.GenerateKeyPair(PrivateKey);
-                    WriteObject(keypair);
+                    var sKey = new SodiumKeyPair()
+                    {
+                        Info = this.Info,
+                        KeyType = "Curve25519",
+                        PrivateKey = keypair.PrivateKey.ToBase64String(),
+                        PublicKey = keypair.PublicKey.ToBase64String()
+                    };
+                    WriteObject(sKey);
                 }
                 else
                 {
                     var keypair = PublicKeyBox.GenerateKeyPair();
-                    WriteObject(keypair);
+                    var sKey = new SodiumKeyPair()
+                    {
+                        Info = this.Info,
+                        KeyType = "Curve25519",
+                        PrivateKey = keypair.PrivateKey.ToBase64String(),
+                        PublicKey = keypair.PublicKey.ToBase64String()
+                    };
+                    WriteObject(sKey);
                 }
             }
 
@@ -57,5 +93,13 @@ namespace PoSH_Sodium
                 Position = 0,
                 HelpMessage = "Private key used for key generation")]
             public byte[] PrivateKey;
+
+            [Parameter(
+                Mandatory = false,
+                ValueFromPipelineByPropertyName = true,
+                ValueFromPipeline = true,
+                Position = 1,
+                HelpMessage = "Optional information to describe key")]
+            public string Info;
         }
 }

@@ -29,6 +29,8 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
+            var privateKey = PrivateKey.ToByteArrayFromBase64String();
+            var publicKey = PublicKey.ToByteArrayFromBase64String();
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
@@ -47,7 +49,7 @@ namespace PoSH_Sodium
                 byte[] nonce = new byte[24];
                 Array.Copy(fileEndData, 0, nonce, 0, 24);
 
-                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, PrivateKey, PublicKey, SodiumCryptoTransform.Direction.Decrypt))
+                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, privateKey, publicKey, SodiumCryptoTransform.Direction.Decrypt))
                 using (FileStream destination = new FileStream(OutFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -57,7 +59,7 @@ namespace PoSH_Sodium
             else
             {
                 byte[] message;
-                message = PublicKeyBox.Open(rawMessage, Nonce, PrivateKey, PublicKey);
+                message = PublicKeyBox.Open(rawMessage, Nonce.ToByteArrayFromBase64String(), privateKey, publicKey);
 
                 if (Raw.IsTrue())
                 {
@@ -112,34 +114,34 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Nonce to decrypt message with")]
-        public byte[] Nonce;
+        public string Nonce;
 
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Sender's private key to sign the message with")]
-        public byte[] PrivateKey;
+        public string PrivateKey;
 
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 2,
             HelpMessage = "Recipient's public key to encrypt the message with")]
-        public byte[] PublicKey;
+        public string PublicKey;
 
         [Parameter(
             ParameterSetName = "String",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+            HelpMessage = "Output is returned as a byte array")]
         [Parameter(
             ParameterSetName = "Byte",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+            HelpMessage = "Output is returned as a byte array")]
         public SwitchParameter Raw;
 
         [Parameter(

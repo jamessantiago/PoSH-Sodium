@@ -24,30 +24,48 @@ namespace PoSH_Sodium
                     break;
                 default:
                     break;
-            }  
+            }
+            switch (Type)
+            {
+                case "ChaCha20":
+                    algo = SodiumCryptoTransform.SymmetricAlgorithm.ChaCha20;
+                    break;
+                case "XSalsa20":
+                    algo = SodiumCryptoTransform.SymmetricAlgorithm.XSalsa;
+                    break;
+                case "Default":
+                default:
+                    algo = SodiumCryptoTransform.SymmetricAlgorithm.Default;
+                    break;
+            }
         }
 
         protected override void ProcessRecord()
         {
+            var key = Key.ToByteArrayFromBase64String();
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
                     OutFile = File;
 
-                byte[] fileEndData = new byte[40];
+                byte[] fileEndData = null;
+                if (algo == SodiumCryptoTransform.SymmetricAlgorithm.ChaCha20)
+                    fileEndData = new byte[8];
+                else 
+                    fileEndData = new byte[24];
                 long dataEnd = 0;
 
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    source.Seek(-24, SeekOrigin.End);
+                    source.Seek(-fileEndData.Length, SeekOrigin.End);
                     dataEnd = source.Position;
-                    source.Read(fileEndData, 0, 24);
+                    source.Read(fileEndData, 0, fileEndData.Length);
                 }
 
-                byte[] nonce = new byte[24];
-                Array.Copy(fileEndData, 0, nonce, 0, 24);
+                byte[] nonce = new byte[fileEndData.Length];
+                Array.Copy(fileEndData, 0, nonce, 0, fileEndData.Length);
 
-                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, Key, SodiumCryptoTransform.Direction.Decrypt))
+                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, key, SodiumCryptoTransform.Direction.Decrypt, algo))
                 using (FileStream destination = new FileStream(OutFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -57,7 +75,20 @@ namespace PoSH_Sodium
             else
             {
                 byte[] message;
-                message = SecretBox.Open(rawMessage, Nonce, Key);
+                byte[] nonce = Nonce.ToByteArrayFromBase64String();
+                switch (algo)
+                {
+                    case SodiumCryptoTransform.SymmetricAlgorithm.ChaCha20:
+                        message = StreamEncryption.DecryptChaCha20(rawMessage, nonce, key);
+                        break;
+                    case SodiumCryptoTransform.SymmetricAlgorithm.XSalsa:
+                        message = StreamEncryption.Decrypt(rawMessage, nonce, key);
+                        break;
+                    case SodiumCryptoTransform.SymmetricAlgorithm.Default:
+                    default:
+                        message = SecretBox.Open(rawMessage, nonce, key);
+                        break;
+                }                
                 if (Raw.IsTrue())
                 {
                     WriteObject(message);
@@ -71,6 +102,7 @@ namespace PoSH_Sodium
         }
 
         private byte[] rawMessage;
+        private SodiumCryptoTransform.SymmetricAlgorithm algo;
 
         [Parameter(
             ParameterSetName = "String",
@@ -111,27 +143,27 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Nonce to decrypt message with")]
-        public byte[] Nonce;
+        public string Nonce;
 
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 2,
             HelpMessage = "key to decrypt the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             ParameterSetName = "String",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+            HelpMessage = "Output is returned as a byte array")]
         [Parameter(
             ParameterSetName = "Byte",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+            HelpMessage = "Output is returned as a byte array")]
         public SwitchParameter Raw;
 
         [Parameter(
@@ -160,6 +192,14 @@ namespace PoSH_Sodium
             HelpMessage = "Encoding to use when converting the message to a byte array.  Default is .NET Unicode (UTF16)")]
         [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
         public string Encoding;
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            Position = 6,
+            HelpMessage = "Encryption type to use")]
+        [ValidateSet("Default", "ChaCha20", "XSalsa20")]
+        public string Type;
     }
 
 }
