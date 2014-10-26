@@ -18,17 +18,18 @@ namespace PoSH_Sodium
         protected override void ProcessRecord()
         {
             bool isVerified;
+            var key = Key.ToByteArrayFromBase64String();
             switch ((HashType ?? "HmacSha512-256").ToUpper())
             {
                 case "HMACSHA512":
-                    isVerified = SecretKeyAuth.VerifyHmacSha512(rawMessage, Signature.Decompress(), Key);
+                    isVerified = SecretKeyAuth.VerifyHmacSha512(rawMessage, Signature.Decompress(), key);
                     break;
                 case "HMACSHA256":
-                    isVerified = SecretKeyAuth.VerifyHmacSha256(rawMessage, Signature.Decompress(), Key);
+                    isVerified = SecretKeyAuth.VerifyHmacSha256(rawMessage, Signature.Decompress(), key);
                     break;
                 case "HMACSHA512-256":
                 default:
-                    isVerified = SecretKeyAuth.Verify(rawMessage, Signature.Decompress(), Key);
+                    isVerified = SecretKeyAuth.Verify(rawMessage, Signature.Decompress(), key);
                     break;
             }
             WriteObject(isVerified);
@@ -49,7 +50,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Key to verify the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             Mandatory = true,
@@ -86,17 +87,18 @@ namespace PoSH_Sodium
         protected override void ProcessRecord()
         {
             bool isVerified;
+            var key = Key.ToByteArrayFromBase64String();
             switch ((HashType ?? "HmacSha512-256").ToUpper())
             {
                 case "HMACSHA512":
-                    isVerified = SecretKeyAuth.VerifyHmacSha512(rawMessage, Signature, Key);
+                    isVerified = SecretKeyAuth.VerifyHmacSha512(rawMessage, Signature, key);
                     break;
                 case "HMACSHA256":
-                    isVerified = SecretKeyAuth.VerifyHmacSha256(rawMessage, Signature, Key);
+                    isVerified = SecretKeyAuth.VerifyHmacSha256(rawMessage, Signature, key);
                     break;
                 case "HMACSHA512-256":
                 default:
-                    isVerified = SecretKeyAuth.Verify(rawMessage, Signature, Key);
+                    isVerified = SecretKeyAuth.Verify(rawMessage, Signature, key);
                     break;
             }
             WriteObject(isVerified);
@@ -117,7 +119,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Key to verify the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             Mandatory = true,

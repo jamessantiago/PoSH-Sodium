@@ -17,8 +17,9 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            byte[] hashedMessage;            
-            hashedMessage = GenericHash.Hash(rawMessage, Key, HashLength);            
+            byte[] hashedMessage;
+            var key = Key.HasValue() ? Key.ToByteArrayFromBase64String() : null;
+            hashedMessage = GenericHash.Hash(rawMessage, key, HashLength);
             if (Raw.IsTrue())
             {
                 WriteObject(hashedMessage);
@@ -51,7 +52,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 2,
             HelpMessage = "Optional 16 to 64 byte key to hash the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             Mandatory = false,

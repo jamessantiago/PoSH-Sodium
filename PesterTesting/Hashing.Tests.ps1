@@ -32,22 +32,22 @@ Describe "New-GenericHash" {
    Context "message and keys are provided" {
 	  It "returns hashed message" {
 		 $key = New-Key		 
-		 $message = New-GenericHash -Message "This is a test" -Key $key
+		 $message = New-GenericHash -Message "This is a test" -Key $key.key
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
    Context "advanced options are provided" {
 	  It "returns raw hashed message" {
 		 $key = New-Key
-		 $message = New-GenericHash -Message "This is a test" -Key $key -Raw 
+		 $message = New-GenericHash -Message "This is a test" -Key $key.key -Raw 
 		 $message.GetType().Name | Should Be "Byte[]"
 	  }
 	  It "returns raw hashed message of variable length" {
 		 $key = New-Key
-		 $message = New-GenericHash -Message "This is a test" -Key $key -Raw -HashLength 16
+		 $message = New-GenericHash -Message "This is a test" -Key $key.key -Raw -HashLength 16
 		 $message.length | Should be 16
 		 $message.GetType().Name | Should Be "Byte[]"
-		 $message = New-GenericHash -Message "This is a test" -Key $key -Raw -HashLength 64
+		 $message = New-GenericHash -Message "This is a test" -Key $key.key -Raw -HashLength 64
 	     $message.length | Should be 64
 		 $message.GetType().Name | Should Be "Byte[]"
 	  }

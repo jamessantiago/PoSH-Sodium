@@ -45,12 +45,13 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
+            var key = Key.ToByteArrayFromBase64String();
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
                     OutFile = Path.GetTempFileName();
 
-                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, Key, SodiumCryptoTransform.Direction.Encrypt, algo))
+                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, key, SodiumCryptoTransform.Direction.Encrypt, algo))
                 using (FileStream destination = new FileStream(OutFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -73,14 +74,14 @@ namespace PoSH_Sodium
                 switch (algo)
                 {
                     case SodiumCryptoTransform.SymmetricAlgorithm.ChaCha20:
-                        encryptedMessage = StreamEncryption.EncryptChaCha20(rawMessage, nonce, Key);
+                        encryptedMessage = StreamEncryption.EncryptChaCha20(rawMessage, nonce, key);
                         break;
                     case SodiumCryptoTransform.SymmetricAlgorithm.XSalsa:
-                        encryptedMessage = StreamEncryption.Encrypt(rawMessage, nonce, Key);
+                        encryptedMessage = StreamEncryption.Encrypt(rawMessage, nonce, key);
                         break;
                     case SodiumCryptoTransform.SymmetricAlgorithm.Default:
                     default:
-                        encryptedMessage = SecretBox.Create(rawMessage, nonce, Key);
+                        encryptedMessage = SecretBox.Create(rawMessage, nonce, key);
                         break;
                 }
 
@@ -132,7 +133,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Key to encrypt the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
            ParameterSetName = "File",

@@ -37,7 +37,7 @@ namespace PoSH_Sodium
         [Parameter(
             ParameterSetName = "KeyPair",
             Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
             Position = 0,
             HelpMessage = "Ed25519 public key to convert")]
         public SodiumKeyPair KeyPair;
@@ -45,7 +45,7 @@ namespace PoSH_Sodium
         [Parameter(
             ParameterSetName = "PublicKey",
             Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
             Position = 0,
             HelpMessage = "Ed25519 public key to convert")]
         public SodiumPublicKey PublicKey;
@@ -53,7 +53,7 @@ namespace PoSH_Sodium
         [Parameter(
             ParameterSetName = "PrivateKey",
             Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
             Position = 0,
             HelpMessage = "Ed25519 private key to convert")]
         public SodiumPrivateKey PrivateKey;

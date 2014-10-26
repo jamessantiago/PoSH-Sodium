@@ -20,7 +20,7 @@ Describe "New-Key" {
    Context "no parameter is provided" {
 	  It "creates a new key" {
 		 $key = New-Key
-		 $key.Length | Should Be 32
+		 $key.key | Should Not BeNullOrEmpty
 	  }
    }
 }
@@ -40,17 +40,17 @@ Describe "Encrypt-SymmetricMessage" {
    Context "message and keys are provided" {
 	  It "returns encrypted message" {
 		 $key = New-Key		 
-		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key
+		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key.key
 		 $message | Should Not BeNullOrEmpty
 	  }
 	  It "returns chacha encrypted message" {
 		 $key = New-Key		 
-		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Type ChaCha20
+		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key.key -Type ChaCha20
 		 $message | Should Not BeNullOrEmpty
 	  }
 	  It "returns xsalsa encrypted message" {
 		 $key = New-Key		 
-		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Type XSalsa20
+		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key.key -Type XSalsa20
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
@@ -59,7 +59,7 @@ Describe "Encrypt-SymmetricMessage" {
 		 rm *.testtxt
 		 $key = New-Key
 		 "test file" | out-File "testFile.testtxt"
-		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt
+		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key.key -OutFile EncryptFile.testtxt
 		 $(test-path EncryptFile.testtxt) | Should be $true
 		 rm *.testtxt
 	  }
@@ -67,7 +67,7 @@ Describe "Encrypt-SymmetricMessage" {
 		 rm *.testtxt
 		 $key = New-Key
 		 "test file" | out-File "testFile.testtxt"
-		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt -Type "ChaCha20"
+		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key.key -OutFile EncryptFile.testtxt -Type "ChaCha20"
 		 $(test-path EncryptFile.testtxt) | Should be $true
 		 rm *.testtxt
 	  }
@@ -75,7 +75,7 @@ Describe "Encrypt-SymmetricMessage" {
 		 rm *.testtxt
 		 $key = New-Key
 		 "test file" | out-File "testFile.testtxt"
-		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt -Type "XSalsa20"
+		 $message = Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key.key -OutFile EncryptFile.testtxt -Type "XSalsa20"
 		 $(test-path EncryptFile.testtxt) | Should be $true
 		 rm *.testtxt
 	  }
@@ -98,31 +98,31 @@ Describe "Sign-SymmetricMessage" {
    Context "message and key is provided" {
 	  It "creates signed message" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
    Context "advanced options are provided" {
 	  It "creates raw message" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Raw
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -Raw
 		 $message | Should Not BeNullOrEmpty
 		 $message.Signature.GetType().Name | Should Be "Byte[]"
 		 $message.Signature.Length | Should be 32
 	  }
 	  It "creates signed message with specified encoding" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Encoding "UTF8"
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -Encoding "UTF8"
 		 $message | Should Not BeNullOrEmpty
 	  }
 	  It "Creates signed message with HmacSha512" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha512
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -HashType HmacSha512
 		 $message | Should Not BeNullOrEmpty
 	  }
 	  It "Creates signed message with HmacSha256" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha256
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -HashType HmacSha256
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
@@ -143,25 +143,25 @@ Describe "Verify-SymmetricMessage" {
    Context "message and key is provided" {
 	  It "verifies signed message" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key
-		 Verify-SymmetricMessage -message $message.Message -Key $key -Signature $message.Signature | Should be $true
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key
+		 Verify-SymmetricMessage -message $message.Message -Key $key.key -Signature $message.Signature | Should be $true
 	  }
    }
    Context "advanced options are provided" {
 	  It "verifies signed message with specified encoding" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Encoding "UTF8"
-		 Verify-SymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -Encoding "UTF8" | Should be $true
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -Encoding "UTF8"
+		 Verify-SymmetricMessage -message $message.Message -Key $key.key -Signature $message.Signature -Encoding "UTF8" | Should be $true
 	  }
 	  It "verifies signed message with HmacSha512" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha512
-		 Verify-SymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -HashType HmacSha512 | Should be $true
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -HashType HmacSha512
+		 Verify-SymmetricMessage -message $message.Message -Key $key.key -Signature $message.Signature -HashType HmacSha512 | Should be $true
 	  }
 	  It "verifies signed message with HmacSha256" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha256
-		 Verify-SymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -HashType HmacSha256 | Should be $true
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -HashType HmacSha256
+		 Verify-SymmetricMessage -message $message.Message -Key $key.key -Signature $message.Signature -HashType HmacSha256 | Should be $true
 	  }
    }
 }
@@ -175,25 +175,25 @@ Describe "Verify-RawSymmetricMessage" {
    Context "message and key is provided" {
 	  It "verifies signed message" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Raw
-		 Verify-RawSymmetricMessage -message $message.Message -Key $key -Signature $message.Signature | Should be $true
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -Raw
+		 Verify-RawSymmetricMessage -message $message.Message -Key $key.key -Signature $message.Signature | Should be $true
 	  }
    }
    Context "advanced options are provided" {
 	  It "verifies signed message with specified encoding" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -Encoding "UTF8" -Raw
-		 Verify-RawSymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -Encoding "UTF8" | Should be $true
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -Encoding "UTF8" -Raw
+		 Verify-RawSymmetricMessage -message $message.Message -Key $key.key -Signature $message.Signature -Encoding "UTF8" | Should be $true
 	  }
 	  It "verifies signed message with HmacSha512" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha512 -Raw
-		 Verify-RawSymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -HashType HmacSha512 | Should be $true
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -HashType HmacSha512 -Raw
+		 Verify-RawSymmetricMessage -message $message.Message -Key $key.key -Signature $message.Signature -HashType HmacSha512 | Should be $true
 	  }
 	  It "verifies signed message with HmacSha256" {
 		 $key = New-Key
-		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key -HashType HmacSha256 -Raw
-		 Verify-RawSymmetricMessage -message $message.Message -Key $key -Signature $message.Signature -HashType HmacSha256 | Should be $true
+		 $message = sign-SymmetricMessage -Message "This is a test" -Key $key.key -HashType HmacSha256 -Raw
+		 Verify-RawSymmetricMessage -message $message.Message -Key $key.key -Signature $message.Signature -HashType HmacSha256 | Should be $true
 	  }
    }
 }
@@ -213,26 +213,26 @@ Describe "Decrypt-SymmetricMessage" {
    Context "message and keys are provided" {
 	  It "returns decrypted message" {
 		 $key = New-Key		 
-		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key
-		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce
+		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key.key
+		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key.key -Nonce $secretMessage.Nonce
 		 $message | Should be "This is a test"
 	  }
 	  It "returns chacha decrypted message" {
 		 $key = New-Key		 
-		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Type ChaCha20
-		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce -Type ChaCha20
+		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key.key -Type ChaCha20
+		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key.key -Nonce $secretMessage.Nonce -Type ChaCha20
 		 $message | Should be "This is a test"
 	  }
 	  It "returns xsalsa decrypted message" {
 		 $key = New-Key		 
-		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Type XSalsa20
-		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce -Type XSalsa20
+		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -Key $key.key -Type XSalsa20
+		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key.key -Nonce $secretMessage.Nonce -Type XSalsa20
 		 $message | Should be "This is a test"
 	  }
 	  It "returns decrypted message per encoding" {
 		 $key = New-Key		 
-		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -key $key -Encoding "UTF8"
-		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key -Nonce $secretMessage.Nonce -Encoding "UTF8"
+		 $secretMessage = Encrypt-SymmetricMessage -Message "This is a test" -key $key.key -Encoding "UTF8"
+		 $message = Decrypt-SymmetricMessage -Message $secretMessage.Message -key $key.key -Nonce $secretMessage.Nonce -Encoding "UTF8"
 		 $message | Should be "This is a test"
 	  }
    }
@@ -241,9 +241,9 @@ Describe "Decrypt-SymmetricMessage" {
 	    rm *.testtxt
 		$key = New-Key
 		"test file" | out-File "testFile.testtxt"
-		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt
+		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key.key -OutFile EncryptFile.testtxt
 		$(test-path EncryptFile.testtxt) | Should be $true
-		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key -OutFile DecryptFile.testtxt
+		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key.key -OutFile DecryptFile.testtxt
 		$(cat DecryptFile.testtxt) | Should be "test file"
 		rm *.testtxt
 	  }
@@ -251,9 +251,9 @@ Describe "Decrypt-SymmetricMessage" {
 	    rm *.testtxt
 		$key = New-Key
 		"test file" | out-File "testFile.testtxt"
-		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt -Type ChaCha20
+		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key.key -OutFile EncryptFile.testtxt -Type ChaCha20
 		$(test-path EncryptFile.testtxt) | Should be $true
-		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key -OutFile DecryptFile.testtxt -Type ChaCha20
+		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key.key -OutFile DecryptFile.testtxt -Type ChaCha20
 		$(cat DecryptFile.testtxt) | Should be "test file"
 		rm *.testtxt
 	  }
@@ -261,9 +261,9 @@ Describe "Decrypt-SymmetricMessage" {
 	    rm *.testtxt
 		$key = New-Key
 		"test file" | out-File "testFile.testtxt"
-		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key -OutFile EncryptFile.testtxt -Type XSalsa20
+		Encrypt-SymmetricMessage -File "testFile.testtxt" -Key $key.key -OutFile EncryptFile.testtxt -Type XSalsa20
 		$(test-path EncryptFile.testtxt) | Should be $true
-		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key -OutFile DecryptFile.testtxt -Type XSalsa20
+		Decrypt-SymmetricMessage -File "EncryptFile.testtxt" -Key $key.key -OutFile DecryptFile.testtxt -Type XSalsa20
 		$(cat DecryptFile.testtxt) | Should be "test file"
 		rm *.testtxt
 	  }

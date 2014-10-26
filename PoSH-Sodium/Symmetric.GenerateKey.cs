@@ -12,7 +12,11 @@ namespace PoSH_Sodium
     {        
         protected override void ProcessRecord()
         {
-            var key = SecretBox.GenerateKey();
+            var key = new SodiumSymmetricKey()
+            {
+                KeyType = "Symmetric",
+                Key = SecretBox.GenerateKey().ToBase64String()
+            };
             WriteObject(key);
         }
     }

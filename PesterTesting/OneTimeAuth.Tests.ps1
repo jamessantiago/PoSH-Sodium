@@ -20,7 +20,7 @@ Describe "New-OneTimeKey" {
    Context "no parameter is provided" {
 	  It "creates a new key" {
 		 $key = New-OneTimeKey
-		 $key.Length | Should Be 32
+		 $key.Key | Should Not BeNullOrEmpty
 	  }
    }
 }
@@ -40,21 +40,21 @@ Describe "Sign-OneTime" {
    Context "message and key is provided" {
 	  It "creates signed message" {
 		 $key = New-OneTimeKey
-		 $message = sign-OneTime -Message "This is a test" -Key $key
+		 $message = sign-OneTime -Message "This is a test" -Key $key.key
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
    Context "advanced options are provided" {
 	  It "creates raw message" {
 		 $key = New-OneTimeKey
-		 $message = sign-OneTime -Message "This is a test" -Key $key -Raw
+		 $message = sign-OneTime -Message "This is a test" -Key $key.key -Raw
 		 $message | Should Not BeNullOrEmpty
 		 $message.Signature.GetType().Name | Should Be "Byte[]"
 		 $message.Signature.Length | Should be 16
 	  }
 	  It "creates signed message with specified encoding" {
 		 $key = New-OneTimeKey
-		 $message = sign-OneTime -Message "This is a test" -Key $key -Encoding "UTF8"
+		 $message = sign-OneTime -Message "This is a test" -Key $key.key -Encoding "UTF8"
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
@@ -75,15 +75,15 @@ Describe "Verify-OneTime" {
    Context "message and key is provided" {
 	  It "verifies signed message" {
 		 $key = New-OneTimeKey
-		 $message = sign-OneTime -Message "This is a test" -Key $key
-		 Verify-OneTime -message $message.Message -Key $key -Signature $message.Signature | Should be $true
+		 $message = sign-OneTime -Message "This is a test" -Key $key.key
+		 Verify-OneTime -message $message.Message -Key $key.key -Signature $message.Signature | Should be $true
 	  }
    }
    Context "advanced options are provided" {
 	  It "verifies signed message with specified encoding" {
 		 $key = New-OneTimeKey
-		 $message = sign-OneTime -Message "This is a test" -Key $key -Encoding "UTF8"
-		 Verify-OneTime -message $message.Message -Key $key -Signature $message.Signature -Encoding "UTF8" | Should be $true
+		 $message = sign-OneTime -Message "This is a test" -Key $key.key -Encoding "UTF8"
+		 Verify-OneTime -message $message.Message -Key $key.key -Signature $message.Signature -Encoding "UTF8" | Should be $true
 	  }
    }
 }
@@ -97,15 +97,15 @@ Describe "Verify-RawOneTime" {
    Context "message and key is provided" {
 	  It "verifies signed message" {
 		 $key = New-OneTimeKey
-		 $message = sign-OneTime -Message "This is a test" -Key $key -Raw
-		 Verify-RawOneTime -message $message.Message -Key $key -Signature $message.Signature | Should be $true
+		 $message = sign-OneTime -Message "This is a test" -Key $key.key -Raw
+		 Verify-RawOneTime -message $message.Message -Key $key.key -Signature $message.Signature | Should be $true
 	  }
    }
    Context "advanced options are provided" {
 	  It "verifies signed message with specified encoding" {
 		 $key = New-OneTimeKey
-		 $message = sign-OneTime -Message "This is a test" -Key $key -Encoding "UTF8" -Raw
-		 Verify-RawOneTime -message $message.Message -Key $key -Signature $message.Signature -Encoding "UTF8" | Should be $true
+		 $message = sign-OneTime -Message "This is a test" -Key $key.key -Encoding "UTF8" -Raw
+		 Verify-RawOneTime -message $message.Message -Key $key.key -Signature $message.Signature -Encoding "UTF8" | Should be $true
 	  }
    }
 }

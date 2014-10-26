@@ -18,17 +18,18 @@ namespace PoSH_Sodium
         protected override void ProcessRecord()
         {
             byte[] signature;
+            var key = Key.ToByteArrayFromBase64String();
             switch ((HashType ?? "HmacSha512-256").ToUpper())
             {
                 case "HMACSHA512":
-                    signature = SecretKeyAuth.SignHmacSha512(rawMessage, Key);
+                    signature = SecretKeyAuth.SignHmacSha512(rawMessage, key);
                     break;
                 case "HMACSHA256":
-                    signature = SecretKeyAuth.SignHmacSha256(rawMessage, Key);
+                    signature = SecretKeyAuth.SignHmacSha256(rawMessage, key);
                     break;
                 case "HMACSHA512-256":
                 default:
-                    signature = SecretKeyAuth.Sign(rawMessage, Key);
+                    signature = SecretKeyAuth.Sign(rawMessage, key);
                     break;
             }
             if (Raw.IsTrue())
@@ -58,7 +59,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Key to sign the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             Mandatory = false,
