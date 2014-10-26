@@ -13,7 +13,11 @@ namespace PoSH_Sodium
     {
         protected override void ProcessRecord()
         {
-            var key = OneTimeAuth.GenerateKey();
+            var key = new SodiumSymmetricKey()
+            {
+                KeyType = "OneTime",
+                Key = OneTimeAuth.GenerateKey().ToBase64String(),
+            };
             WriteObject(key);
         }
     }
@@ -29,7 +33,7 @@ namespace PoSH_Sodium
         protected override void ProcessRecord()
         {
             byte[] signature;
-            signature = OneTimeAuth.Sign(rawMessage, Key);
+            signature = OneTimeAuth.Sign(rawMessage, Key.ToByteArrayFromBase64String());
             if (Raw.IsTrue())
             {
                 var signedMessave = new RawSignedSymmetricMessage() { Message = Message, Signature = signature };
@@ -57,7 +61,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "One time key to sign the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             Mandatory = false,
@@ -85,7 +89,7 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            bool isVerified = OneTimeAuth.Verify(rawMessage, Signature.Decompress(), Key);            
+            bool isVerified = OneTimeAuth.Verify(rawMessage, Signature.Decompress(), Key.ToByteArrayFromBase64String());            
             WriteObject(isVerified);
         }
 
@@ -104,7 +108,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "One time key to verify the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             Mandatory = true,
@@ -132,7 +136,7 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            bool isVerified = OneTimeAuth.Verify(rawMessage, Signature, Key);            
+            bool isVerified = OneTimeAuth.Verify(rawMessage, Signature, Key.ToByteArrayFromBase64String());            
             WriteObject(isVerified);
         }
 
@@ -151,7 +155,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Key to verify the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             Mandatory = true,

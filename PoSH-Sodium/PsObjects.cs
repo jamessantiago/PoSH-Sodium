@@ -83,6 +83,7 @@ namespace PoSH_Sodium
     public class SodiumSymmetricKey
     {
         public string Info = "";
+        public string KeyType;
         public string Key;
 
         public override string ToString()

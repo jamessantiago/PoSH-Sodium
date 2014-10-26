@@ -42,6 +42,7 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
+            var key = Key.ToByteArrayFromBase64String();
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
@@ -64,7 +65,7 @@ namespace PoSH_Sodium
                 byte[] nonce = new byte[fileEndData.Length];
                 Array.Copy(fileEndData, 0, nonce, 0, fileEndData.Length);
 
-                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, Key, SodiumCryptoTransform.Direction.Decrypt, algo))
+                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, key, SodiumCryptoTransform.Direction.Decrypt, algo))
                 using (FileStream destination = new FileStream(OutFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -78,14 +79,14 @@ namespace PoSH_Sodium
                 switch (algo)
                 {
                     case SodiumCryptoTransform.SymmetricAlgorithm.ChaCha20:
-                        message = StreamEncryption.DecryptChaCha20(rawMessage, nonce, Key);
+                        message = StreamEncryption.DecryptChaCha20(rawMessage, nonce, key);
                         break;
                     case SodiumCryptoTransform.SymmetricAlgorithm.XSalsa:
-                        message = StreamEncryption.Decrypt(rawMessage, nonce, Key);
+                        message = StreamEncryption.Decrypt(rawMessage, nonce, key);
                         break;
                     case SodiumCryptoTransform.SymmetricAlgorithm.Default:
                     default:
-                        message = SecretBox.Open(rawMessage, nonce, Key);
+                        message = SecretBox.Open(rawMessage, nonce, key);
                         break;
                 }                
                 if (Raw.IsTrue())
@@ -149,7 +150,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 2,
             HelpMessage = "key to decrypt the message with")]
-        public byte[] Key;
+        public string Key;
 
         [Parameter(
             ParameterSetName = "String",
