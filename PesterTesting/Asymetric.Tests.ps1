@@ -212,13 +212,6 @@ Describe "Encrypt-Message" {
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
-   Context "advanced options are provided" {
-	  It "returns raw encrypted message" {
-		 $key = New-CurveKeyPair
-		 $message = Encrypt-Message -Message "This is a test" -PublicKey $key.PublicKey -PrivateKey $key.PrivateKey -Raw 
-		 $message.Message.GetType().Name | Should Be "Byte[]"
-	  }
-   }
    Context "encryption after Ed25519 key conversion" {
 	  It "returns encrypted message" {
 		 $key = New-KeyPair

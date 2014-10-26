@@ -29,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="DeployModule.ps1" />
     <Content Include="Hashing.Tests.ps1" />
     <Content Include="Misc.Tests.ps1" />
     <Content Include="RunTests.bat" />

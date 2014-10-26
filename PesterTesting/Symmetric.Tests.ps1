@@ -54,23 +54,6 @@ Describe "Encrypt-SymmetricMessage" {
 		 $message | Should Not BeNullOrEmpty
 	  }
    }
-   Context "advanced options are provided" {
-	  It "returns raw encrypted message" {
-		 $key = New-Key
-		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Raw 
-		 $message.Message.GetType().Name | Should Be "Byte[]"
-	  }
-	  It "returns raw chacha encrypted message" {
-		 $key = New-Key
-		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Raw -Type ChaCha20
-		 $message.Message.GetType().Name | Should Be "Byte[]"
-	  }
-	  It "returns raw xsalsa encrypted message" {
-		 $key = New-Key
-		 $message = Encrypt-SymmetricMessage -Message "This is a test" -Key $key -Raw -Type XSalsa20
-		 $message.Message.GetType().Name | Should Be "Byte[]"
-	  }
-   }
    Context "file encryption" {
 	  It "encrypts file" {
 		 rm *.testtxt

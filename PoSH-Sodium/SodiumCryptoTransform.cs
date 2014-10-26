@@ -31,8 +31,11 @@ namespace PoSH_Sodium
 
         public enum SymmetricAlgorithm
         {
+            [Description("Default")]
             Default,
+            [Description("ChaCha20")]
             ChaCha20,
+            [Description("XSalsa")]
             XSalsa
         }
 

@@ -74,17 +74,18 @@ namespace PoSH_Sodium
             else
             {
                 byte[] message;
+                byte[] nonce = Nonce.ToByteArrayFromBase64String();
                 switch (algo)
                 {
                     case SodiumCryptoTransform.SymmetricAlgorithm.ChaCha20:
-                        message = StreamEncryption.DecryptChaCha20(rawMessage, Nonce, Key);
+                        message = StreamEncryption.DecryptChaCha20(rawMessage, nonce, Key);
                         break;
                     case SodiumCryptoTransform.SymmetricAlgorithm.XSalsa:
-                        message = StreamEncryption.Decrypt(rawMessage, Nonce, Key);
+                        message = StreamEncryption.Decrypt(rawMessage, nonce, Key);
                         break;
                     case SodiumCryptoTransform.SymmetricAlgorithm.Default:
                     default:
-                        message = SecretBox.Open(rawMessage, Nonce, Key);
+                        message = SecretBox.Open(rawMessage, nonce, Key);
                         break;
                 }                
                 if (Raw.IsTrue())
@@ -141,7 +142,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Nonce to decrypt message with")]
-        public byte[] Nonce;
+        public string Nonce;
 
         [Parameter(
             Mandatory = true,
@@ -155,13 +156,13 @@ namespace PoSH_Sodium
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+            HelpMessage = "Output is returned as a byte array")]
         [Parameter(
             ParameterSetName = "Byte",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+            HelpMessage = "Output is returned as a byte array")]
         public SwitchParameter Raw;
 
         [Parameter(
@@ -194,7 +195,7 @@ namespace PoSH_Sodium
         [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            Position = 5,
+            Position = 6,
             HelpMessage = "Encryption type to use")]
         [ValidateSet("Default", "ChaCha20", "XSalsa20")]
         public string Type;

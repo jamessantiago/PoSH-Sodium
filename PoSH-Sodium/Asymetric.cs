@@ -4,19 +4,22 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 using Sodium;
 
 namespace PoSH_Sodium
 {
     public class EncryptedMessage
     {
+        public string Info = "";
+        public string EncryptedType;
         public string Message;
-        public byte[] Nonce;        
-    }
-
-    public class RawEncryptedMessage
-    {
-        public byte[] Message;
-        public byte[] Nonce;
+        public string Nonce;
+        public bool Compressed;
+        
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace PoSH_Sodium
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
-                    OutFile = File;
+                    OutFile = Path.GetTempFileName();
 
                 using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, Key, SodiumCryptoTransform.Direction.Encrypt, algo))
                 using (FileStream destination = new FileStream(OutFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
@@ -59,6 +59,12 @@ namespace PoSH_Sodium
                     cryptoStream.FlushFinalBlock();
                     destination.Write(nonce, 0, nonce.Length);
                     destination.Flush();
+                }
+
+                if (ReplaceFile.IsTrue())
+                {
+                    System.IO.File.Delete(File);
+                    System.IO.File.Move(OutFile, File);
                 }
             }
             else
@@ -77,16 +83,16 @@ namespace PoSH_Sodium
                         encryptedMessage = SecretBox.Create(rawMessage, nonce, Key);
                         break;
                 }
-                if (Raw.IsTrue())
+
+                var results = new EncryptedMessage()
                 {
-                    var result = new RawEncryptedMessage() { Message = encryptedMessage, Nonce = nonce };
-                    WriteObject(result);
-                }
-                else
-                {
-                    var result = new EncryptedMessage() { Message = encryptedMessage.Compress(), Nonce = nonce };
-                    WriteObject(result);
-                }
+                    EncryptedType = algo.GetDescription(),
+                    Message = NoCompression.IsTrue() ? encryptedMessage.ToBase64String() : encryptedMessage.Compress(),
+                    Nonce = nonce.ToBase64String(),
+                    Compressed = !NoCompression
+                };
+                WriteObject(results);
+
             }
         }
 
@@ -129,20 +135,6 @@ namespace PoSH_Sodium
         public byte[] Key;
 
         [Parameter(
-            ParameterSetName = "String",
-            Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
-        [Parameter(
-            ParameterSetName = "Byte",
-            Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
-        public SwitchParameter Raw;
-
-        [Parameter(
            ParameterSetName = "File",
            Mandatory = false,
            ValueFromPipelineByPropertyName = true,
@@ -168,6 +160,14 @@ namespace PoSH_Sodium
             HelpMessage = "Encoding to use when converting the message to a byte array.  Default is .NET Unicode (UTF16)")]
         [ValidateSet("UTF7", "UTF8", "UTF16", "UTF32", "ASCII", "Unicode", "BigEndianUnicode")]
         public string Encoding;
+
+        [Parameter(
+            ParameterSetName = "String",
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            Position = 5,
+            HelpMessage = "No compression is used when returning an encrypted message")]
+        public SwitchParameter NoCompression;
 
         [Parameter(
             Mandatory = false,

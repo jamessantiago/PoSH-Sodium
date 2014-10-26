@@ -57,7 +57,7 @@ namespace PoSH_Sodium
             else
             {
                 byte[] message;
-                message = PublicKeyBox.Open(rawMessage, Nonce, PrivateKey, PublicKey);
+                message = PublicKeyBox.Open(rawMessage, Nonce.ToByteArrayFromBase64String(), PrivateKey, PublicKey);
 
                 if (Raw.IsTrue())
                 {
@@ -112,7 +112,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Nonce to decrypt message with")]
-        public byte[] Nonce;
+        public string Nonce;
 
         [Parameter(
             Mandatory = true,
@@ -133,13 +133,13 @@ namespace PoSH_Sodium
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+            HelpMessage = "Output is returned as a byte array")]
         [Parameter(
             ParameterSetName = "Byte",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 3,
-            HelpMessage = "Output is returned as a byte array, otherwise an LZ4 compressed base64 encoded string is returned")]
+            HelpMessage = "Output is returned as a byte array")]
         public SwitchParameter Raw;
 
         [Parameter(
