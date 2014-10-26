@@ -54,7 +54,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 <div class="panel-heading">Summary - <small>Pester</small></div>
 <div class="panel-body">
 <div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Tests</div><div class="val ignore-val">85</div></div>
-<div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Failures</div><div class="val ">0</div></div>
+<div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Failures</div><div class="val text-danger">24</div></div>
 <div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Errors</div><div class="val ">0</div></div>
 <div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Not Run</div><div class="val ">0</div></div>
 <div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Inconclusive</div><div class="val ">0</div></div>
@@ -62,33 +62,36 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 <div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Skipped</div><div class="val ">0</div></div>
 <div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Invalid</div><div class="val ">0</div></div>
 <div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Date</div><div class="val">26 Oct</div></div>
-<div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Time</div><div class="val">8:35 PM</div></div>
+<div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Time</div><div class="val">9:22 PM</div></div>
 <div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Platform</div><div class="val">Microsoft Windows 8.1 Pro</div></div>
-<div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Success Rate</div><div class="val">100%</div></div>
+<div class="col-md-2 col-sm-4 col-xs-6 text-center"><div class="stat">Success Rate</div><div class="val">71.8%</div></div>
 </div>
 </div>
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-New-KeyPair - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.3677</small>
+panel-danger"><div class="panel-heading">
+New-KeyPair - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.7526</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-New-KeyPair-0" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-New-KeyPair-0" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 creates a new keypair
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Expected: {32}
+But was:  {44}</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 23 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
@@ -102,13 +105,16 @@ fails for bad seed
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 creates keypair for good seed
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Expected: {32}
+But was:  {44}</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 36 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -123,14 +129,17 @@ creates keypair for good seed
 <div class="modal-body">
 <div class="panel-group no-bottom-margin" id="modal-New-KeyPair-0-accordion">
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-New-KeyPair-0" href="#modal-New-KeyPair-0-accordion-0">creates a new keypair</a>
 </h4>
 </div>
 <div id="modal-New-KeyPair-0-accordion-0" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Expected: {32}
+But was:  {44}</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 23 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -147,14 +156,17 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-New-KeyPair-0" href="#modal-New-KeyPair-0-accordion-2">creates keypair for good seed</a>
 </h4>
 </div>
 <div id="modal-New-KeyPair-0-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Expected: {32}
+But was:  {44}</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 36 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -172,25 +184,28 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-New-CurveKeyPair - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1063</small>
+panel-danger"><div class="panel-heading">
+New-CurveKeyPair - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1052</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-New-CurveKeyPair-1" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-New-CurveKeyPair-1" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 creates a new keypair
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Expected: {32}
+But was:  {44}</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 46 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
@@ -204,13 +219,16 @@ fails for bad seed
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 creates keypair for good seed
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Expected: {32}
+But was:  {44}</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 59 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -225,14 +243,17 @@ creates keypair for good seed
 <div class="modal-body">
 <div class="panel-group no-bottom-margin" id="modal-New-CurveKeyPair-1-accordion">
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-New-CurveKeyPair-1" href="#modal-New-CurveKeyPair-1-accordion-0">creates a new keypair</a>
 </h4>
 </div>
 <div id="modal-New-CurveKeyPair-1-accordion-0" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Expected: {32}
+But was:  {44}</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 46 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -249,14 +270,17 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-New-CurveKeyPair-1" href="#modal-New-CurveKeyPair-1-accordion-2">creates keypair for good seed</a>
 </h4>
 </div>
 <div id="modal-New-CurveKeyPair-1-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Expected: {32}
+But was:  {44}</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 59 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -274,14 +298,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-Sign-Message - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.2647</small>
+panel-danger"><div class="panel-heading">
+Sign-Message - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1283</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-Sign-Message-2" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-Sign-Message-2" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -296,33 +320,39 @@ fails
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 creates signed message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "deLwRFP1y/7XtOcn3YraAh7RA/fKEI7OBcp1m3KSGk94pVLL9MuRgJXg4yesEgw4NV8rRAsCMxUamAiKRtBM5g==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 82 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 creates raw message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "Gtc9JxnLPrPqlMyWNjjL3/T12uIWjLFlJtlsZl+R7ZIdlylyJeveOLOCNU3jolPOtCE7lI+GgqkPBqk0qh6uQA==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 89 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 creates signed message with specified encoding
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "+b2eeh3UkaxGeEuxi1gtS3qEAGS1rKeyNy6Fh2lbul775Ddf0Ie3wcqSjBQZrRv91+ZsF54VtRpdg+bml3Q6fA==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 95 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -349,38 +379,44 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Sign-Message-2" href="#modal-Sign-Message-2-accordion-1">creates signed message</a>
 </h4>
 </div>
 <div id="modal-Sign-Message-2-accordion-1" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "deLwRFP1y/7XtOcn3YraAh7RA/fKEI7OBcp1m3KSGk94pVLL9MuRgJXg4yesEgw4NV8rRAsCMxUamAiKRtBM5g==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 82 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Sign-Message-2" href="#modal-Sign-Message-2-accordion-2">creates raw message</a>
 </h4>
 </div>
 <div id="modal-Sign-Message-2-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "Gtc9JxnLPrPqlMyWNjjL3/T12uIWjLFlJtlsZl+R7ZIdlylyJeveOLOCNU3jolPOtCE7lI+GgqkPBqk0qh6uQA==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 89 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Sign-Message-2" href="#modal-Sign-Message-2-accordion-3">creates signed message with specified encoding</a>
 </h4>
 </div>
 <div id="modal-Sign-Message-2-accordion-3" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "+b2eeh3UkaxGeEuxi1gtS3qEAGS1rKeyNy6Fh2lbul775Ddf0Ie3wcqSjBQZrRv91+ZsF54VtRpdg+bml3Q6fA==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 95 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -398,14 +434,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-Verify-Message - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1132</small>
+panel-danger"><div class="panel-heading">
+Verify-Message - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1028</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-Verify-Message-3" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-Verify-Message-3" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -420,33 +456,39 @@ fails
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns plain text message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "YFVvROmvRhltEqbjdn4mR1NbeMtoBelD7pnyRXsVpK9T5jap4agu7PlXcfT6luIjuMzmQTva5EqQOaylhaGWqA==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 117 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns raw message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "sW3JBRXG/Ri4R4LyfaRrxuGmwnsgnNKqRpadBdDtoTZ+HxBXHhdcRM/k5kssYTx2qSHqHAywNvXFSHuuODDS9Q==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 124 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 verifies signed message with specified encoding
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "yT39/2GkaNVg6ua3OKw0LS91TovDD87cqO5SG2xF+7g7GpnK8Jd6IuL5TDaz/UJicO1OR3+p7kQZgmnZ0XEo1Q==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 129 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -473,38 +515,44 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Verify-Message-3" href="#modal-Verify-Message-3-accordion-1">returns plain text message</a>
 </h4>
 </div>
 <div id="modal-Verify-Message-3-accordion-1" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "YFVvROmvRhltEqbjdn4mR1NbeMtoBelD7pnyRXsVpK9T5jap4agu7PlXcfT6luIjuMzmQTva5EqQOaylhaGWqA==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 117 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Verify-Message-3" href="#modal-Verify-Message-3-accordion-2">returns raw message</a>
 </h4>
 </div>
 <div id="modal-Verify-Message-3-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "sW3JBRXG/Ri4R4LyfaRrxuGmwnsgnNKqRpadBdDtoTZ+HxBXHhdcRM/k5kssYTx2qSHqHAywNvXFSHuuODDS9Q==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 124 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Verify-Message-3" href="#modal-Verify-Message-3-accordion-3">verifies signed message with specified encoding</a>
 </h4>
 </div>
 <div id="modal-Verify-Message-3-accordion-3" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "yT39/2GkaNVg6ua3OKw0LS91TovDD87cqO5SG2xF+7g7GpnK8Jd6IuL5TDaz/UJicO1OR3+p7kQZgmnZ0XEo1Q==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 129 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -522,14 +570,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-Verify-RawMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1142</small>
+panel-danger"><div class="panel-heading">
+Verify-RawMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1073</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-Verify-RawMessage-4" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-Verify-RawMessage-4" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -544,33 +592,39 @@ fails
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns plain text message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "9vm+tNJ1dsjHgAsFTdJYJYUd/JI5KH5pScUG4Rm/LQQINWlF+DknZYQnGkP4WnZAlKtOuX/uohsYXj88IiWS9A==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 144 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns raw message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "/fAKdq2fEC7in3k5OBD44yWADYI7BnF7TEJOQtKf0ztYbjQfejTTXmVyk6UnQ3F5yRc/GXxrSHVzU4yxtQAZqA==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 151 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 verifies signed message with specified encoding
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "Kz3YRhAenz3W2/1VyyAm+u3yX1voFTXHxEQVKMrh8p4cuvGnp6/3Pz25WsGnERTkeQOJZ/ccQpuznl8iiyW28A==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 156 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -597,38 +651,44 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Verify-RawMessage-4" href="#modal-Verify-RawMessage-4-accordion-1">returns plain text message</a>
 </h4>
 </div>
 <div id="modal-Verify-RawMessage-4-accordion-1" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "9vm+tNJ1dsjHgAsFTdJYJYUd/JI5KH5pScUG4Rm/LQQINWlF+DknZYQnGkP4WnZAlKtOuX/uohsYXj88IiWS9A==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 144 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Verify-RawMessage-4" href="#modal-Verify-RawMessage-4-accordion-2">returns raw message</a>
 </h4>
 </div>
 <div id="modal-Verify-RawMessage-4-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "/fAKdq2fEC7in3k5OBD44yWADYI7BnF7TEJOQtKf0ztYbjQfejTTXmVyk6UnQ3F5yRc/GXxrSHVzU4yxtQAZqA==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 151 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Verify-RawMessage-4" href="#modal-Verify-RawMessage-4-accordion-3">verifies signed message with specified encoding</a>
 </h4>
 </div>
 <div id="modal-Verify-RawMessage-4-accordion-3" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'Key'. Cannot convert value "Kz3YRhAenz3W2/1VyyAm+u3yX1voFTXHxEQVKMrh8p4cuvGnp6/3Pz25WsGnERTkeQOJZ/ccQpuznl8iiyW28A==" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 156 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -646,14 +706,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-Convert-PublicKey - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.0769</small>
+panel-danger"><div class="panel-heading">
+Convert-PublicKey - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.4594</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-Convert-PublicKey-5" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-Convert-PublicKey-5" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -668,13 +728,15 @@ fails
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns converted key
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> The term 'Convert-PublicKey' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 177 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -701,14 +763,16 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Convert-PublicKey-5" href="#modal-Convert-PublicKey-5-accordion-1">returns converted key</a>
 </h4>
 </div>
 <div id="modal-Convert-PublicKey-5-accordion-1" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> The term 'Convert-PublicKey' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 177 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -726,14 +790,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-Convert-PrivateKey - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.0961</small>
+panel-danger"><div class="panel-heading">
+Convert-PrivateKey - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.427</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-Convert-PrivateKey-6" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-Convert-PrivateKey-6" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -748,13 +812,15 @@ fails
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns converted key
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> The term 'Convert-PrivateKey' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 191 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -781,14 +847,16 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Convert-PrivateKey-6" href="#modal-Convert-PrivateKey-6-accordion-1">returns converted key</a>
 </h4>
 </div>
 <div id="modal-Convert-PrivateKey-6-accordion-1" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> The term 'Convert-PrivateKey' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 191 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -806,14 +874,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-Encrypt-Message - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1559</small>
+panel-danger"><div class="panel-heading">
+Encrypt-Message - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.4078</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-Encrypt-Message-7" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-Encrypt-Message-7" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -838,13 +906,15 @@ returns encrypted message
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns encrypted message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> The term 'Convert-PrivateKey' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 218 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
@@ -893,14 +963,16 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Encrypt-Message-7" href="#modal-Encrypt-Message-7-accordion-2">returns encrypted message</a>
 </h4>
 </div>
 <div id="modal-Encrypt-Message-7-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> The term 'Convert-PrivateKey' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 218 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -930,14 +1002,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-Decrypt-Message - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.171</small>
+panel-danger"><div class="panel-heading">
+Decrypt-Message - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.3207</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-Decrypt-Message-8" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-Decrypt-Message-8" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -952,43 +1024,51 @@ fails
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns decrypted message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'PublicKey'. Cannot convert value "8BYKzQ63c17GyhQaiF+dlq5wa/98F5sJe3MMGD0Kjmw=" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 252 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns decrypted message per encoding
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'PublicKey'. Cannot convert value "PTT8NNjVdIDjxA1+ILakXEpA5UXBNzuEPH11P6cDLDY=" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 258 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 returns encrypted message
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> The term 'Convert-PrivateKey' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 265 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 decrypts file
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'PublicKey'. Cannot convert value "xPOqGTsstUSgcMqOI/JdUcHvqQDrn5EhmYQhOsEsHUo=" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 279 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -1015,50 +1095,58 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Decrypt-Message-8" href="#modal-Decrypt-Message-8-accordion-1">returns decrypted message</a>
 </h4>
 </div>
 <div id="modal-Decrypt-Message-8-accordion-1" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'PublicKey'. Cannot convert value "8BYKzQ63c17GyhQaiF+dlq5wa/98F5sJe3MMGD0Kjmw=" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 252 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Decrypt-Message-8" href="#modal-Decrypt-Message-8-accordion-2">returns decrypted message per encoding</a>
 </h4>
 </div>
 <div id="modal-Decrypt-Message-8-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'PublicKey'. Cannot convert value "PTT8NNjVdIDjxA1+ILakXEpA5UXBNzuEPH11P6cDLDY=" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 258 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Decrypt-Message-8" href="#modal-Decrypt-Message-8-accordion-3">returns encrypted message</a>
 </h4>
 </div>
 <div id="modal-Decrypt-Message-8-accordion-3" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> The term 'Convert-PrivateKey' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 265 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-Decrypt-Message-8" href="#modal-Decrypt-Message-8-accordion-4">decrypts file</a>
 </h4>
 </div>
 <div id="modal-Decrypt-Message-8-accordion-4" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> Cannot bind parameter 'PublicKey'. Cannot convert value "xPOqGTsstUSgcMqOI/JdUcHvqQDrn5EhmYQhOsEsHUo=" to type "System.Byte". Error: "Input string was not in a correct format."</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 279 in D:\Code\PoSH-Sodium\PesterTesting\Asymetric.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -1077,7 +1165,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-New-GenericHash - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.142</small>
+New-GenericHash - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1461</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -1222,14 +1310,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-ConvertFrom-Key - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1681</small>
+panel-danger"><div class="panel-heading">
+ConvertFrom-Key - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1944</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-ConvertFrom-Key-10" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-ConvertFrom-Key-10" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -1244,23 +1332,27 @@ converts key to json string
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 converts keypair to json string
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> You cannot call a method on a null-valued expression.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 29 in D:\Code\PoSH-Sodium\PesterTesting\Misc.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 converts curve keypair to json string
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> You cannot call a method on a null-valued expression.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 34 in D:\Code\PoSH-Sodium\PesterTesting\Misc.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -1287,26 +1379,30 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-ConvertFrom-Key-10" href="#modal-ConvertFrom-Key-10-accordion-1">converts keypair to json string</a>
 </h4>
 </div>
 <div id="modal-ConvertFrom-Key-10-accordion-1" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> You cannot call a method on a null-valued expression.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 29 in D:\Code\PoSH-Sodium\PesterTesting\Misc.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-ConvertFrom-Key-10" href="#modal-ConvertFrom-Key-10-accordion-2">converts curve keypair to json string</a>
 </h4>
 </div>
 <div id="modal-ConvertFrom-Key-10-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> You cannot call a method on a null-valued expression.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 34 in D:\Code\PoSH-Sodium\PesterTesting\Misc.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -1324,14 +1420,14 @@ panel-success"><div class="panel-heading">
 </div>
 <div class="col-md-3">
 <div class="panel 
-panel-success"><div class="panel-heading">
-ConvertFrom-JsonKey - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1017</small>
+panel-danger"><div class="panel-heading">
+ConvertFrom-JsonKey - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1056</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
-<a href="#modal-ConvertFrom-JsonKey-11" role="button" data-toggle="modal" class="text-success no-underline">
-<span class="glyphicon glyphicon-ok-sign"></span>
-<span class="test-result">Success</span>
+<a href="#modal-ConvertFrom-JsonKey-11" role="button" data-toggle="modal" class="text-danger no-underline">
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+<span class="test-result">Failed</span>
 </a>
 </div>
 <div class="visible-print printed-test-result">
@@ -1346,23 +1442,27 @@ converts key to json string
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 converts keypair to json string
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> You cannot call a method on a null-valued expression.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 50 in D:\Code\PoSH-Sodium\PesterTesting\Misc.Tests.ps1</pre></div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 converts curve keypair to json string
 </h4>
 </div>
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> You cannot call a method on a null-valued expression.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 56 in D:\Code\PoSH-Sodium\PesterTesting\Misc.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -1389,26 +1489,30 @@ panel-success"><div class="panel-heading">
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-ConvertFrom-JsonKey-11" href="#modal-ConvertFrom-JsonKey-11-accordion-1">converts keypair to json string</a>
 </h4>
 </div>
 <div id="modal-ConvertFrom-JsonKey-11-accordion-1" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> You cannot call a method on a null-valued expression.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 50 in D:\Code\PoSH-Sodium\PesterTesting\Misc.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
 <div class="panel 
-panel-success"><div class="panel-heading">
+panel-danger"><div class="panel-heading">
 <h4 class="panel-title">
 <a data-toggle="collapse" data-parent="#modal-ConvertFrom-JsonKey-11" href="#modal-ConvertFrom-JsonKey-11-accordion-2">converts curve keypair to json string</a>
 </h4>
 </div>
 <div id="modal-ConvertFrom-JsonKey-11-accordion-2" class="panel-collapse collapse">
 <div class="panel-body">
-<div><strong>Result:</strong> Success</div>
+<div><strong>Result:</strong> Failure</div>
+<div><strong>Message:</strong> You cannot call a method on a null-valued expression.</div>
+<div><strong>Stack Trace:</strong> <pre>at line: 56 in D:\Code\PoSH-Sodium\PesterTesting\Misc.Tests.ps1</pre></div>
 </div>
 </div>
 </div>
@@ -1427,7 +1531,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-New-OneTimeKey - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.0473</small>
+New-OneTimeKey - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.0521</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -1485,7 +1589,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-Sign-OneTime - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1138</small>
+Sign-OneTime - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.109</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -1609,7 +1713,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-Verify-OneTime - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1019</small>
+Verify-OneTime - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.0988</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -1711,7 +1815,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-Verify-RawOneTime - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.103</small>
+Verify-RawOneTime - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.0931</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -1813,7 +1917,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-New-Key - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.049</small>
+New-Key - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.0455</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -1871,7 +1975,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-Encrypt-SymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.138</small>
+Encrypt-SymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1424</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -2061,7 +2165,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-Sign-SymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1175</small>
+Sign-SymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1096</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -2229,7 +2333,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-Verify-SymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1151</small>
+Verify-SymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1042</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -2375,7 +2479,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-Verify-RawSymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1076</small>
+Verify-RawSymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1054</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">
@@ -2521,7 +2625,7 @@ panel-success"><div class="panel-heading">
 <div class="col-md-3">
 <div class="panel 
 panel-success"><div class="panel-heading">
-Decrypt-SymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1577</small>
+Decrypt-SymmetricMessage - <small>D:\Code\PoSH-Sodium\PesterTesting</small><small class="pull-right">0.1543</small>
 </div>
 <div class="panel-body">
 <div class="text-center" style="font-size: 1.5em;">

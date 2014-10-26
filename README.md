@@ -45,41 +45,26 @@ Available Cmdlets
 =================
 
 So far these are available:
-
-    ConvertFrom-JsonKey [-Key] <string> [<CommonParameters>]
-    ConvertFrom-Key [-Key] <byte[]> [[-KeyName] <string>] [<CommonParameters>]
-    ConvertFrom-Key [-KeyPair] <KeyPair> [[-KeyName] <string>] [<CommonParameters>]
-    Convert-PrivateKey [-PrivateKey] <byte[]> [<CommonParameters>]
-    Convert-PublicKey [-PublicKey] <byte[]> [<CommonParameters>]
-    Decrypt-ChaChaMessage [-Message] <string> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Decrypt-Message [-Message] <string> [-PrivateKey] <byte[]> [-PublicKey] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Decrypt-Message [-RawMessage] <byte[]> [-PrivateKey] <byte[]> [-PublicKey] <byte[]> [-Raw] [<CommonParameters>]
-    Decrypt-Message [-File] <string> [-PrivateKey] <byte[]> [-PublicKey] <byte[]> [[-OutFile] <string>] [-ReplaceFile] [<CommonParameters>]
-    Decrypt-RawChaChaMessage [-Message] <byte[]> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Decrypt-RawXSalsaMessage [-Message] <byte[]> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Decrypt-SymmetricMessage [-Message] <string> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Decrypt-SymmetricMessage [-RawMessage] <byte[]> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [<CommonParameters>]
-    Decrypt-SymmetricMessage [-File] <string> [-Key] <byte[]> [[-OutFile] <string>] [-ReplaceFile] [<CommonParameters>]
-    Decrypt-XSalsaMessage [-Message] <string> [-Nonce] <byte[]> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Encrypt-ChaChaMessage [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Encrypt-Message [-Message] <string> [-PrivateKey] <byte[]> [-PublicKey] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Encrypt-Message [-RawMessage] <byte[]> [-PrivateKey] <byte[]> [-PublicKey] <byte[]> [-Raw] [<CommonParameters>]
-    Encrypt-Message [-File] <string> [-PrivateKey] <byte[]> [-PublicKey] <byte[]> [[-OutFile] <string>] [-ReplaceFile] [<CommonParameters>]
-    Encrypt-SymmetricMessage [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Encrypt-SymmetricMessage [-RawMessage] <byte[]> [-Key] <byte[]> [-Raw] [<CommonParameters>]
-    Encrypt-SymmetricMessage [-File] <string> [-Key] <byte[]> [[-OutFile] <string>] [-ReplaceFile] [<CommonParameters>]
-    Encrypt-XSalsaMessage [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    New-CurveKeyPair [[-PrivateKey] <byte[]>] [<CommonParameters>]
-    New-GenericHash [-Message] <string> [[-HashLength] <int>] [[-Key] <byte[]>] [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    New-Key [<CommonParameters>]
-    New-KeyPair [[-Seed] <byte[]>] [<CommonParameters>]
-    New-OneTimeKey [<CommonParameters>]
-    Sign-Message [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Sign-OneTime [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Sign-SymmetricMessage [-Message] <string> [-Key] <byte[]> [-Raw] [[-Encoding] <string>] [[-HashType] <string>] [<CommonParameters>]
-    Verify-Message [-Message] <string> [-Key] <byte[]> [-SignatureOnly] [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Verify-OneTime [-Message] <string> [-Key] <byte[]> [-Signature] <string> [[-Encoding] <string>] [<CommonParameters>]
-    Verify-RawMessage [-Message] <byte[]> [-Key] <byte[]> [-SignatureOnly] [-Raw] [[-Encoding] <string>] [<CommonParameters>]
-    Verify-RawOneTime [-Message] <string> [-Key] <byte[]> [-Signature] <byte[]> [[-Encoding] <string>] [<CommonParameters>]
-    Verify-RawSymmetricMessage [-Message] <string> [-Key] <byte[]> [-Signature] <byte[]> [[-Encoding] <string>] [[-HashType] <string>] [<CommonParameters>]
-    Verify-SymmetricMessage [-Message] <string> [-Key] <byte[]> [-Signature] <string> [[-Encoding] <string>] [[-HashType] <string>] [<CommonParameters>]
+    
+    ConvertFrom-JsonKey
+    ConvertFrom-Key
+    Convert-PrivateKey
+    Convert-PublicKey
+    Decrypt-Message
+    Decrypt-SymmetricMessage
+    Encrypt-Message
+    Encrypt-SymmetricMessage
+    New-CurveKeyPair
+    New-GenericHash
+    New-Key
+    New-KeyPair
+    New-OneTimeKey
+    Sign-Message
+    Sign-OneTime
+    Sign-SymmetricMessage
+    Verify-Message
+    Verify-OneTime
+    Verify-RawMessage
+    Verify-RawOneTime
+    Verify-RawSymmetricMessage
+    Verify-SymmetricMessage

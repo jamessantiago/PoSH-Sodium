@@ -9,17 +9,5 @@ using Sodium;
 
 namespace PoSH_Sodium
 {
-    public class EncryptedMessage
-    {
-        public string Info = "";
-        public string EncryptedType;
-        public string Message;
-        public string Nonce;
-        public bool Compressed;
-        
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
-    }
+
 }

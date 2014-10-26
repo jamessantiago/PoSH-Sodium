@@ -17,7 +17,8 @@ namespace PoSH_Sodium
 
         protected override void ProcessRecord()
         {
-            var signedMessage = PublicKeyAuth.Sign(rawMessage, Key);
+            var key = PrivateKey.ToByteArrayFromBase64String();
+            var signedMessage = PublicKeyAuth.Sign(rawMessage, key);
             if (Raw.IsTrue())
             {
                 WriteObject(signedMessage);
@@ -43,7 +44,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Private key to sign the message with")]
-        public byte[] Key;
+        public string PrivateKey;
 
         [Parameter(
             Mandatory = false,

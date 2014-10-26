@@ -30,12 +30,14 @@ namespace PoSH_Sodium
         protected override void ProcessRecord()
         {
             var nonce = SecretBox.GenerateNonce();
+            var privateKey = PrivateKey.ToByteArrayFromBase64String();
+            var publicKey = PublicKey.ToByteArrayFromBase64String();
             if (ParameterSetName == "File")
             {
                 if (ReplaceFile.IsTrue())
                     OutFile = Path.GetTempFileName();
 
-                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, PrivateKey, PublicKey, SodiumCryptoTransform.Direction.Encrypt))
+                using (ICryptoTransform transform = new SodiumCryptoTransform(nonce, privateKey, publicKey, SodiumCryptoTransform.Direction.Encrypt))
                 using (FileStream destination = new FileStream(OutFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
                 using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))                
@@ -53,8 +55,8 @@ namespace PoSH_Sodium
                 }
             }
             else
-            {                
-                var encryptedMessage = PublicKeyBox.Create(rawMessage, nonce, PrivateKey, PublicKey);
+            {
+                var encryptedMessage = PublicKeyBox.Create(rawMessage, nonce, privateKey, publicKey);
                 var results = new EncryptedMessage()
                 {
                     EncryptedType = "Asymetric",
@@ -102,14 +104,14 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Sender's private key to sign the message with")]
-        public byte[] PrivateKey;
+        public string PrivateKey;
 
         [Parameter(
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 2,
             HelpMessage = "Recipient's public key to encrypt the message with")]
-        public byte[] PublicKey;
+        public string PublicKey;
 
         [Parameter(
             ParameterSetName = "String",

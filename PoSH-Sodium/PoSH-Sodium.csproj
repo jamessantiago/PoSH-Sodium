@@ -80,6 +80,7 @@
     <Compile Include="OneTimeAuth.cs" />
     <Compile Include="ConvertKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PsObjects.cs" />
     <Compile Include="SodiumCryptoTransform.cs" />
     <Compile Include="Symmetric.cs" />
     <Compile Include="Symmetric.Decrypt.cs">

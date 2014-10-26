@@ -24,7 +24,8 @@ namespace PoSH_Sodium
             }
             else
             {
-                message = PublicKeyAuth.Verify(rawMessage, Key);
+                var key = PublicKey.ToByteArrayFromBase64String();
+                message = PublicKeyAuth.Verify(rawMessage, key);
 
                 if (Raw.IsPresent && Raw.ToBool())
                 {
@@ -53,7 +54,7 @@ namespace PoSH_Sodium
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Public key to verify the message with")]
-        public byte[] Key;
+        public string PublicKey;
 
         [Parameter(
             Mandatory = false,
