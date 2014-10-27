@@ -1,9 +1,12 @@
-![image](https://raw.githubusercontent.com/jamessantiago/PoSH-Sodium/master/Demo.gif)
-
 PoSH-Sodium
 ===========
 
 PoSH-Sodium is a powershell module that uses the [libsodium-net](https://github.com/adamcaudill/libsodium-net) library.
+
+Demo
+====
+
+![image](https://raw.githubusercontent.com/jamessantiago/PoSH-Sodium/master/Demo.gif)
 
 Why
 ===
@@ -39,17 +42,20 @@ The testing goal for PoSH-Sodium is 100% test coverage.  You can run the tests b
 Usage
 =====
 
-PoSH-Sodium commands can be used after building the source and importing PoSH-Sodium.dll.
+Right now there are no releases.  PoSH-Sodium is still in early development.  If you would like to test, the following method will get you started:
+
+ - Clone the repository
+ - Build the source
+ - Use the DeployModule.ps1 script in the PesterTesting project or use the import-module command on the PoSH-Sodium.dll file
+
+ You'll need the powershell tools for Visual Studio 2013 to fully access the PesterTesting project.
 
 Available Cmdlets
 =================
 
 So far these are available:
     
-    ConvertFrom-JsonKey
-    ConvertFrom-Key
-    Convert-PrivateKey
-    Convert-PublicKey
+    ConvertTo-CurveKey
     Decrypt-Message
     Decrypt-SymmetricMessage
     Encrypt-Message
@@ -68,3 +74,4 @@ So far these are available:
     Verify-RawOneTime
     Verify-RawSymmetricMessage
     Verify-SymmetricMessage
+    
