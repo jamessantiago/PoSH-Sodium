@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Management.Automation;
+using System.Security.Cryptography;
+using System.IO;
 using Sodium;
 
 namespace PoSH_Sodium
@@ -12,14 +14,41 @@ namespace PoSH_Sodium
     {
         protected override void BeginProcessing()
         {
-            rawMessage = Message.ToByteArray(Encoding);
+            switch (ParameterSetName)
+            {
+                case "String":
+                    rawMessage = Message.ToByteArray(Encoding);
+                    break;
+                case "Byte":
+                    rawMessage = RawMessage;
+                    break;
+                default:
+                    break;
+            }
         }
 
         protected override void ProcessRecord()
         {
             byte[] hashedMessage;
             var key = Key.HasValue() ? Key.ToByteArrayFromBase64String() : null;
-            hashedMessage = GenericHash.Hash(rawMessage, key, HashLength);
+
+            if (ParameterSetName == "File")
+            {
+                using (ICryptoTransform transform = new GenericHash.GenericHashAlgorithm(key, HashLength))
+                using (MemoryStream destination = new MemoryStream())
+                using (CryptoStream cryptoStream = new CryptoStream(destination, transform, CryptoStreamMode.Write))
+                using (FileStream source = new FileStream(File, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    source.CopyTo(cryptoStream);
+                    cryptoStream.FlushFinalBlock();
+                    hashedMessage = destination.ToArray();
+                }
+            }
+            else
+            {
+                hashedMessage = GenericHash.Hash(rawMessage, key, HashLength);
+            }
+
             if (Raw.IsTrue())
             {
                 WriteObject(hashedMessage);
@@ -33,6 +62,7 @@ namespace PoSH_Sodium
         private byte[] rawMessage;
 
         [Parameter(
+            ParameterSetName = "String",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
@@ -41,10 +71,29 @@ namespace PoSH_Sodium
         public string Message;
 
         [Parameter(
+        ParameterSetName = "Byte",
+        Mandatory = true,
+        ValueFromPipelineByPropertyName = true,
+        ValueFromPipeline = true,
+        Position = 0,
+        HelpMessage = "Message to be hashed")]
+        public byte[] RawMessage;
+
+        [Parameter(
+            ParameterSetName = "File",
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
+            Position = 0,
+            HelpMessage = "Message to be hashed")]
+        public string File;
+
+        [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "Output length of hash")]
+        [ValidateRange(16, 64)]
         public int HashLength = 40;
 
         [Parameter(
@@ -62,6 +111,7 @@ namespace PoSH_Sodium
         public SwitchParameter Raw;
 
         [Parameter(
+            ParameterSetName = "String",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             Position = 4,

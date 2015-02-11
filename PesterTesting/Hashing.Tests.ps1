@@ -52,4 +52,14 @@ Describe "New-GenericHash" {
 		 $message.GetType().Name | Should Be "Byte[]"
 	  }
    }
+   Context "file encryption" {
+	  It "encrypts file" {
+		 rm *.testtxt
+		 $key = New-Key
+		 "test file" | out-File "testFile.testtxt"
+		 $message = New-GenericHash -File "testFile.testtxt" -key $key.key
+		 $message| Should Not BeNullOrEmpty
+		 rm *.testtxt
+	  }
+   }
 }
