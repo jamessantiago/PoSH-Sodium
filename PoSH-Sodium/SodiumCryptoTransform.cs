@@ -50,13 +50,13 @@ namespace PoSH_Sodium
             direction = Direction;
             if (direction == SodiumCryptoTransform.Direction.Encrypt)
             {
-                inputBlockSize = 4096; //must be larger than 24, nonce is at end
-                outputBlockSize = 4112;
+                inputBlockSize = 65536; //must be larger than 24, nonce is at end
+                outputBlockSize = 65552;
             }
             else
             {
-                inputBlockSize = 4112;
-                outputBlockSize = 4096;
+                inputBlockSize = 65552;
+                outputBlockSize = 65536;
             }
             //block size?
         }
@@ -71,13 +71,13 @@ namespace PoSH_Sodium
             algorithm = Algorithm;
             if (direction == SodiumCryptoTransform.Direction.Encrypt)
             {
-                inputBlockSize = 4096; //must be larger than 24, nonce is at end
-                outputBlockSize = 4112;
+                inputBlockSize = 65536; //must be larger than 24, nonce is at end
+                outputBlockSize = 65552;
             }
             else
             {
-                inputBlockSize = 4112;
-                outputBlockSize = 4096;
+                inputBlockSize = 65552;
+                outputBlockSize = 65536;
             }
         }
 

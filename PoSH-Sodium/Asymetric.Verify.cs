@@ -42,12 +42,22 @@ namespace PoSH_Sodium
         private byte[] rawMessage;
 
         [Parameter(
+            ParameterSetName = "String",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
             Position = 0,
             HelpMessage = "Message to be verified")]
         public string Message;
+
+        [Parameter(
+            ParameterSetName = "Byte",
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
+            Position = 0,
+            HelpMessage = "Message to be verified")]
+        public byte[] RawMessage;
 
         [Parameter(
             Mandatory = true,
